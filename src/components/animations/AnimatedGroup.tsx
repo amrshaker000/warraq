@@ -1,13 +1,13 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
 
 interface AnimatedGroupProps {
   children: React.ReactNode[];
   className?: string;
   staggerDelay?: number;
   itemDelay?: number;
-  direction?: 'up' | 'down' | 'left' | 'right';
+  direction?: "up" | "down" | "left" | "right";
   distance?: number;
   duration?: number;
   threshold?: number;
@@ -15,30 +15,30 @@ interface AnimatedGroupProps {
 
 const AnimatedGroup: React.FC<AnimatedGroupProps> = ({
   children,
-  className = '',
+  className = "",
   staggerDelay = 0.1,
   itemDelay = 0,
-  direction = 'up',
+  direction = "up",
   distance = 20,
   duration = 0.5,
-  threshold = 0.1
+  threshold = 0.1,
 }) => {
   const ref = React.useRef(null);
   const isInView = useInView(ref, {
     once: true,
     amount: threshold,
-    margin: "-5% 0px -5% 0px"
+    margin: "-5% 0px -5% 0px",
   });
 
   const getInitialPosition = () => {
     switch (direction) {
-      case 'up':
+      case "up":
         return { opacity: 0, y: distance };
-      case 'down':
+      case "down":
         return { opacity: 0, y: -distance };
-      case 'left':
+      case "left":
         return { opacity: 0, x: distance };
-      case 'right':
+      case "right":
         return { opacity: 0, x: -distance };
       default:
         return { opacity: 0, y: distance };
@@ -51,9 +51,9 @@ const AnimatedGroup: React.FC<AnimatedGroupProps> = ({
       opacity: 1,
       transition: {
         delayChildren: itemDelay,
-        staggerChildren: staggerDelay
-      }
-    }
+        staggerChildren: staggerDelay,
+      },
+    },
   };
 
   const itemVariants = {
@@ -64,9 +64,9 @@ const AnimatedGroup: React.FC<AnimatedGroupProps> = ({
       y: 0,
       transition: {
         duration,
-        ease: "easeOut" as const
-      }
-    }
+        ease: "easeOut" as const,
+      },
+    },
   };
 
   return (

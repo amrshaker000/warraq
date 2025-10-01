@@ -1,15 +1,15 @@
-import React from 'react';
-import type { Feature, MultiPolygon, Polygon } from 'geojson';
+import React from "react";
+import type { Feature, MultiPolygon, Polygon } from "geojson";
 import {
   ComposableMap,
   Geographies,
   Geography,
   Marker,
-  ZoomableGroup
-} from 'react-simple-maps';
-import { scaleQuantile } from 'd3-scale';
-import { useTranslation } from 'react-i18next';
-import type { Member } from '../../types/member';
+  ZoomableGroup,
+} from "react-simple-maps";
+import { scaleQuantile } from "d3-scale";
+import { useTranslation } from "react-i18next";
+import type { Member } from "../../types/member";
 
 // Extend the Member type to include the city property
 type MemberWithCity = Member & {
@@ -18,28 +18,29 @@ type MemberWithCity = Member & {
 
 // You can find the GeoJSON for your region at:
 // https://geojson-maps.ash.ms/
-const geoUrl = 'https://raw.githubusercontent.com/deldersveld/topojson/master/countries/saudi-arabia/saudi-arabia-provinces.json';
+const geoUrl =
+  "https://raw.githubusercontent.com/deldersveld/topojson/master/countries/saudi-arabia/saudi-arabia-provinces.json";
 
 // Sample city coordinates - replace with actual coordinates for your regions
 const cityCoordinates: Record<string, [number, number]> = {
-  'الرياض': [46.6753, 24.7136],
-  'جدة': [39.1728, 21.5433],
-  'مكة المكرمة': [39.8262, 21.3891],
-  'المدينة المنورة': [39.5696, 24.5247],
-  'الدمام': [50.1000, 26.4200],
-  'الخبر': [50.2000, 26.3000],
-  'الظهران': [50.1667, 26.3000],
-  'الطائف': [40.5120, 21.4381],
-  'بريدة': [43.9750, 26.3667],
-  'تبوك': [36.5667, 28.3833],
-  'أبها': [42.5500, 18.2167],
-  'نجران': [44.1167, 17.4833],
-  'جازان': [42.5667, 16.9000],
-  'حائل': [41.7000, 27.5167],
-  'الباحة': [41.4667, 20.0000],
-  'الجوف': [40.2000, 29.8000],
-  'عرعر': [41.1333, 30.9833],
-  'سكاكا': [40.2000, 29.9833],
+  الرياض: [46.6753, 24.7136],
+  جدة: [39.1728, 21.5433],
+  "مكة المكرمة": [39.8262, 21.3891],
+  "المدينة المنورة": [39.5696, 24.5247],
+  الدمام: [50.1, 26.42],
+  الخبر: [50.2, 26.3],
+  الظهران: [50.1667, 26.3],
+  الطائف: [40.512, 21.4381],
+  بريدة: [43.975, 26.3667],
+  تبوك: [36.5667, 28.3833],
+  أبها: [42.55, 18.2167],
+  نجران: [44.1167, 17.4833],
+  جازان: [42.5667, 16.9],
+  حائل: [41.7, 27.5167],
+  الباحة: [41.4667, 20.0],
+  الجوف: [40.2, 29.8],
+  عرعر: [41.1333, 30.9833],
+  سكاكا: [40.2, 29.9833],
 };
 
 interface GeographicDistributionChartProps {
@@ -57,53 +58,56 @@ interface GeoFeatureProperties {
   [key: string]: string | number | boolean | null | undefined;
 }
 
-interface GeoFeature extends Feature<MultiPolygon | Polygon, GeoFeatureProperties> {
+interface GeoFeature
+  extends Feature<MultiPolygon | Polygon, GeoFeatureProperties> {
   rsmKey?: string;
 }
 
-const GeographicDistributionChart: React.FC<GeographicDistributionChartProps> = ({ members }) => {
+const GeographicDistributionChart: React.FC<
+  GeographicDistributionChartProps
+> = ({ members }) => {
   const { t } = useTranslation();
-  
+
   // Count members by city
   const countMembersByCity = () => {
     const cityCounts: Record<string, number> = {};
-    
+
     members.forEach((member: MemberWithCity) => {
       if (!member.city) return;
-      
+
       const city = member.city.trim();
       if (!city) return;
-      
+
       cityCounts[city] = (cityCounts[city] || 0) + 1;
     });
-    
+
     return cityCounts;
   };
-  
+
   const cityCounts = countMembersByCity();
   const maxCount = Math.max(...Object.values(cityCounts), 1);
-  
+
   // Create a color scale
   const colorScale = scaleQuantile<string>()
     .domain([0, maxCount])
     .range([
-      '#EFF6FF',
-      '#BFDBFE',
-      '#93C5FD',
-      '#60A5FA',
-      '#3B82F6',
-      '#2563EB',
-      '#1D4ED8',
-      '#1E40AF',
-      '#1E3A8A',
+      "#EFF6FF",
+      "#BFDBFE",
+      "#93C5FD",
+      "#60A5FA",
+      "#3B82F6",
+      "#2563EB",
+      "#1D4ED8",
+      "#1E40AF",
+      "#1E3A8A",
     ]);
-  
+
   // Prepare data for the map
   const markers = Object.entries(cityCounts)
     .map(([city, count]): MarkerData | null => {
       const coordinates = cityCoordinates[city];
       if (!coordinates) return null;
-      
+
       return {
         city,
         count,
@@ -111,27 +115,30 @@ const GeographicDistributionChart: React.FC<GeographicDistributionChartProps> = 
       };
     })
     .filter((marker): marker is MarkerData => marker !== null);
-  
+
   const getFillColor = (count: number) => {
-    return colorScale(count) || '#E5E7EB';
+    return colorScale(count) || "#E5E7EB";
   };
-  
+
   const getMarkerSize = (count: number) => {
     // Scale the marker size based on the count
     const baseSize = 5;
     const maxSize = 20;
-    const size = Math.min(baseSize + (count / maxCount) * (maxSize - baseSize), maxSize);
+    const size = Math.min(
+      baseSize + (count / maxCount) * (maxSize - baseSize),
+      maxSize,
+    );
     return size;
   };
-  
+
   if (markers.length === 0) {
     return (
       <div className="h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
-        {t('analytics.noLocationData')}
+        {t("analytics.noLocationData")}
       </div>
     );
   }
-  
+
   return (
     <div className="relative h-full w-full">
       <ComposableMap
@@ -142,8 +149,8 @@ const GeographicDistributionChart: React.FC<GeographicDistributionChartProps> = 
           center: [45, 24],
         }}
         style={{
-          width: '100%',
-          height: '100%',
+          width: "100%",
+          height: "100%",
         }}
       >
         <ZoomableGroup center={[45, 24]} zoom={1}>
@@ -151,18 +158,18 @@ const GeographicDistributionChart: React.FC<GeographicDistributionChartProps> = 
             {({ geographies }) =>
               geographies.map((geo: GeoFeature) => (
                 <Geography
-                  key={`geo-${geo.properties?.name || 'unknown'}`}
+                  key={`geo-${geo.properties?.name || "unknown"}`}
                   geography={geo}
                   fill="#E5E7EB"
                   stroke="#D1D5DB"
                   strokeWidth={0.5}
                   style={{
-                    default: { outline: 'none' },
-                    hover: { fill: '#BFDBFE', outline: 'none' },
-                    pressed: { fill: '#3B82F6', outline: 'none' },
+                    default: { outline: "none" },
+                    hover: { fill: "#BFDBFE", outline: "none" },
+                    pressed: { fill: "#3B82F6", outline: "none" },
                   }}
                 >
-                  <title>{geo.properties?.name || 'Unknown region'}</title>
+                  <title>{geo.properties?.name || "Unknown region"}</title>
                 </Geography>
               ))
             }
@@ -170,9 +177,12 @@ const GeographicDistributionChart: React.FC<GeographicDistributionChartProps> = 
           {markers.map((marker, index) => {
             const { city, count, coordinates } = marker;
             const [longitude, latitude] = coordinates;
-            
+
             return (
-              <Marker key={`${city}-${index}`} coordinates={[longitude, latitude]}>
+              <Marker
+                key={`${city}-${index}`}
+                coordinates={[longitude, latitude]}
+              >
                 <circle
                   r={getMarkerSize(count)}
                   fill={getFillColor(count)}
@@ -180,26 +190,32 @@ const GeographicDistributionChart: React.FC<GeographicDistributionChartProps> = 
                   strokeWidth={1}
                   className="cursor-pointer transition-all duration-200 hover:opacity-80"
                 >
-                  <title>{`${city}: ${count} ${t('analytics.members')}`}</title>
+                  <title>{`${city}: ${count} ${t("analytics.members")}`}</title>
                 </circle>
               </Marker>
             );
           })}
         </ZoomableGroup>
       </ComposableMap>
-      
+
       <div className="absolute bottom-4 right-4 bg-white dark:bg-gray-800 p-2 rounded-md shadow-md text-xs">
         <div className="flex items-center mb-1">
           <div className="w-3 h-3 rounded-full bg-blue-100 mr-1"></div>
-          <span className="text-gray-600 dark:text-gray-300">1-{Math.floor(maxCount / 3)}</span>
+          <span className="text-gray-600 dark:text-gray-300">
+            1-{Math.floor(maxCount / 3)}
+          </span>
         </div>
         <div className="flex items-center mb-1">
           <div className="w-4 h-4 rounded-full bg-blue-300 mr-1"></div>
-          <span className="text-gray-600 dark:text-gray-300">{Math.floor(maxCount / 3) + 1}-{Math.floor((maxCount * 2) / 3)}</span>
+          <span className="text-gray-600 dark:text-gray-300">
+            {Math.floor(maxCount / 3) + 1}-{Math.floor((maxCount * 2) / 3)}
+          </span>
         </div>
         <div className="flex items-center">
           <div className="w-5 h-5 rounded-full bg-blue-500 mr-1"></div>
-          <span className="text-gray-600 dark:text-gray-300">{Math.floor((maxCount * 2) / 3) + 1}+</span>
+          <span className="text-gray-600 dark:text-gray-300">
+            {Math.floor((maxCount * 2) / 3) + 1}+
+          </span>
         </div>
       </div>
     </div>

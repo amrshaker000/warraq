@@ -1,16 +1,18 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import type { Member } from '../../types/member';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import type { Member } from "../../types/member";
 
 interface StatusDistributionChartProps {
   members: Member[];
 }
 
-const StatusDistributionChart: React.FC<StatusDistributionChartProps> = ({ members }) => {
+const StatusDistributionChart: React.FC<StatusDistributionChartProps> = ({
+  members,
+}) => {
   const { t } = useTranslation();
-  const activeCount = members.filter(m => m.status === 'active').length;
-  const inactiveCount = members.filter(m => m.status === 'inactive').length;
-  const suspendedCount = members.filter(m => m.status === 'suspended').length;
+  const activeCount = members.filter((m) => m.status === "active").length;
+  const inactiveCount = members.filter((m) => m.status === "inactive").length;
+  const suspendedCount = members.filter((m) => m.status === "suspended").length;
   const total = members.length;
 
   const activePercentage = total > 0 ? (activeCount / total) * 100 : 0;
@@ -19,22 +21,22 @@ const StatusDistributionChart: React.FC<StatusDistributionChartProps> = ({ membe
 
   const statusData = [
     {
-      label: t('analytics.statusLabels.active'),
+      label: t("analytics.statusLabels.active"),
       count: activeCount,
       percentage: activePercentage,
-      color: 'bg-green-500',
+      color: "bg-green-500",
     },
     {
-      label: t('analytics.statusLabels.inactive'),
+      label: t("analytics.statusLabels.inactive"),
       count: inactiveCount,
       percentage: inactivePercentage,
-      color: 'bg-yellow-500',
+      color: "bg-yellow-500",
     },
     {
-      label: t('analytics.statusLabels.suspended'),
+      label: t("analytics.statusLabels.suspended"),
       count: suspendedCount,
       percentage: suspendedPercentage,
-      color: 'bg-red-500',
+      color: "bg-red-500",
     },
   ];
 
@@ -65,8 +67,7 @@ const StatusDistributionChart: React.FC<StatusDistributionChartProps> = ({ membe
       </div>
 
       {total === 0 && (
-        <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
-        </div>
+        <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400"></div>
       )}
     </div>
   );

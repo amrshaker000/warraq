@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
 interface PageTransitionWrapperProps {
   children: React.ReactNode;
@@ -11,28 +11,28 @@ const pageVariants = {
   initial: {
     opacity: 0,
     y: 20,
-    scale: 0.98
+    scale: 0.98,
   },
   in: {
     opacity: 1,
     y: 0,
-    scale: 1
+    scale: 1,
   },
   out: {
     opacity: 0,
     y: -20,
-    scale: 1.02
-  }
+    scale: 1.02,
+  },
 };
 
 const pageTransition = {
   duration: 0.4,
-  ease: "easeInOut" as const
+  ease: "easeInOut" as const,
 };
 
 const PageTransitionWrapper: React.FC<PageTransitionWrapperProps> = ({
   children,
-  className = ''
+  className = "",
 }) => {
   const location = useLocation();
 

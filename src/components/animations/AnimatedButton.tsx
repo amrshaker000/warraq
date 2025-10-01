@@ -1,7 +1,7 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import Button from '../ui/Button';
-import type { ButtonProps } from '../ui/Button';
+import React from "react";
+import { motion } from "framer-motion";
+import Button from "../ui/Button";
+import type { ButtonProps } from "../ui/Button";
 
 interface AnimatedButtonProps extends ButtonProps {
   delay?: number;
@@ -9,33 +9,31 @@ interface AnimatedButtonProps extends ButtonProps {
   children?: React.ReactNode;
 }
 
-const AnimatedButton: React.FC<AnimatedButtonProps> = ({ 
-  children, 
+const AnimatedButton: React.FC<AnimatedButtonProps> = ({
+  children,
   delay = 0,
   duration = 0.3,
-  ...props 
+  ...props
 }) => {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ 
+      transition={{
         duration,
         delay,
-        ease: "easeOut"
+        ease: "easeOut",
       }}
-      whileHover={{ 
+      whileHover={{
         scale: 1.05,
-        transition: { duration: 0.2 }
+        transition: { duration: 0.2 },
       }}
-      whileTap={{ 
+      whileTap={{
         scale: 0.95,
-        transition: { duration: 0.1 }
+        transition: { duration: 0.1 },
       }}
     >
-      <Button {...props}>
-        {children}
-      </Button>
+      <Button {...props}>{children}</Button>
     </motion.div>
   );
 };

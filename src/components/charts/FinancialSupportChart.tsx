@@ -1,15 +1,19 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import type { Member } from '../../types/member';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import type { Member } from "../../types/member";
 
 interface FinancialSupportChartProps {
   members: Member[];
 }
 
-const FinancialSupportChart: React.FC<FinancialSupportChartProps> = ({ members }) => {
+const FinancialSupportChart: React.FC<FinancialSupportChartProps> = ({
+  members,
+}) => {
   const { t } = useTranslation();
-  const paidCount = members.filter(m => m.financialSupport === 'paid').length;
-  const unpaidCount = members.filter(m => m.financialSupport === 'unpaid').length;
+  const paidCount = members.filter((m) => m.financialSupport === "paid").length;
+  const unpaidCount = members.filter(
+    (m) => m.financialSupport === "unpaid",
+  ).length;
   const total = members.length;
 
   const paidPercentage = total > 0 ? (paidCount / total) * 100 : 0;
@@ -24,7 +28,7 @@ const FinancialSupportChart: React.FC<FinancialSupportChartProps> = ({ members }
             <div className="flex items-center space-x-2">
               <div className="w-4 h-4 bg-green-500 rounded-full"></div>
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                {t('analytics.financialLabels.paid')}
+                {t("analytics.financialLabels.paid")}
               </span>
             </div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -45,7 +49,7 @@ const FinancialSupportChart: React.FC<FinancialSupportChartProps> = ({ members }
             <div className="flex items-center space-x-2">
               <div className="w-4 h-4 bg-red-500 rounded-full"></div>
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                {t('analytics.financialLabels.unpaid')}
+                {t("analytics.financialLabels.unpaid")}
               </span>
             </div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -62,8 +66,7 @@ const FinancialSupportChart: React.FC<FinancialSupportChartProps> = ({ members }
       </div>
 
       {total === 0 && (
-        <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
-        </div>
+        <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400"></div>
       )}
     </div>
   );

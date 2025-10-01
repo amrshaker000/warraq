@@ -1,15 +1,17 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import type { Member } from '../../types/member';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import type { Member } from "../../types/member";
 
 interface GenderDistributionChartProps {
   members: Member[];
 }
 
-const GenderDistributionChart: React.FC<GenderDistributionChartProps> = ({ members }) => {
+const GenderDistributionChart: React.FC<GenderDistributionChartProps> = ({
+  members,
+}) => {
   const { t } = useTranslation();
-  const maleCount = members.filter(m => m.gender === 'male').length;
-  const femaleCount = members.filter(m => m.gender === 'female').length;
+  const maleCount = members.filter((m) => m.gender === "male").length;
+  const femaleCount = members.filter((m) => m.gender === "female").length;
   const total = members.length;
 
   const malePercentage = total > 0 ? (maleCount / total) * 100 : 0;
@@ -62,8 +64,7 @@ const GenderDistributionChart: React.FC<GenderDistributionChartProps> = ({ membe
       </div>
 
       {total === 0 && (
-        <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
-        </div>
+        <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400"></div>
       )}
     </div>
   );

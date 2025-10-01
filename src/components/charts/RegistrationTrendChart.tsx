@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   BarChart,
   Bar,
@@ -8,11 +8,11 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
-} from 'recharts';
-import type { Member } from '../../types/member';
-import { format } from 'date-fns';
-import { arSA } from 'date-fns/locale';
-import { useTranslation } from 'react-i18next';
+} from "recharts";
+import type { Member } from "../../types/member";
+import { format } from "date-fns";
+import { arSA } from "date-fns/locale";
+import { useTranslation } from "react-i18next";
 
 interface RegistrationTrendChartProps {
   members: Member[];
@@ -22,69 +22,76 @@ interface RegistrationTrendChartProps {
   };
 }
 
-const RegistrationTrendChart: React.FC<RegistrationTrendChartProps> = ({ 
-  members, 
-  dateRange 
+const RegistrationTrendChart: React.FC<RegistrationTrendChartProps> = ({
+  members,
+  dateRange,
 }) => {
   const { t, i18n } = useTranslation();
-  
+
   // Generate monthly data for the selected date range
   const generateMonthlyData = () => {
     const result: { month: string; count: number }[] = [];
     const currentDate = new Date(dateRange.startDate);
     const endDate = new Date(dateRange.endDate);
-    
+
     // Set to first day of the month
     currentDate.setDate(1);
-    
+
     while (currentDate <= endDate) {
-      const month = format(currentDate, 'MMM yyyy', { 
-        locale: i18n.language === 'ar' ? arSA : undefined 
+      const month = format(currentDate, "MMM yyyy", {
+        locale: i18n.language === "ar" ? arSA : undefined,
       });
-      
+
       result.push({
         month,
         count: 0,
       });
-      
+
       // Move to first day of next month
       currentDate.setMonth(currentDate.getMonth() + 1);
     }
-    
+
     return result;
   };
-  
+
   // Count registrations per month
   const countRegistrationsByMonth = () => {
     const monthlyData = generateMonthlyData();
-    
-    members.forEach(member => {
+
+    members.forEach((member) => {
       if (!member.registrationDate) return;
-      
+
       const registrationDate = new Date(member.registrationDate);
-      
+
       // Skip if registration date is outside the selected range
-      if (registrationDate < dateRange.startDate || registrationDate > dateRange.endDate) {
+      if (
+        registrationDate < dateRange.startDate ||
+        registrationDate > dateRange.endDate
+      ) {
         return;
       }
-      
-      const monthKey = format(registrationDate, 'MMM yyyy', { 
-        locale: i18n.language === 'ar' ? arSA : undefined 
+
+      const monthKey = format(registrationDate, "MMM yyyy", {
+        locale: i18n.language === "ar" ? arSA : undefined,
       });
-      
-      const monthData = monthlyData.find(item => item.month === monthKey);
+
+      const monthData = monthlyData.find((item) => item.month === monthKey);
       if (monthData) {
         monthData.count++;
       }
     });
-    
+
     return monthlyData;
   };
-  
+
   const data = countRegistrationsByMonth();
-  
+
   // Custom tooltip
-  const CustomTooltip = ({ active, payload, label }: {
+  const CustomTooltip = ({
+    active,
+    payload,
+    label,
+  }: {
     active?: boolean;
     payload?: Array<{ value: number }>;
     label?: string;
@@ -94,7 +101,8 @@ const RegistrationTrendChart: React.FC<RegistrationTrendChartProps> = ({
         <div className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
           <p className="font-medium text-gray-900 dark:text-white">{label}</p>
           <p className="text-sm text-gray-600 dark:text-gray-300">
-            {t('analytics.registrations')}: <span className="font-semibold">{payload[0].value}</span>
+            {t("analytics.registrations")}:{" "}
+            <span className="font-semibold">{payload[0].value}</span>
           </p>
         </div>
       );
@@ -125,15 +133,15 @@ const RegistrationTrendChart: React.FC<RegistrationTrendChartProps> = ({
       </g>
     );
   };
-    
+
   if (data.length === 0) {
     return (
       <div className="h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
-        {t('analytics.noDataAvailable')}
+        {t("analytics.noDataAvailable")}
       </div>
     );
   }
-  
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
@@ -146,32 +154,36 @@ const RegistrationTrendChart: React.FC<RegistrationTrendChartProps> = ({
         }}
         barSize={20}
       >
-        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-        <XAxis 
-          dataKey="month" 
-          axisLine={false} 
+        <CartesianGrid
+          strokeDasharray="3 3"
+          vertical={false}
+          stroke="#E5E7EB"
+        />
+        <XAxis
+          dataKey="month"
+          axisLine={false}
           tickLine={false}
           tick={renderCustomizedTick}
           interval={Math.ceil(data.length / 6) - 1} // Show fewer labels for better readability
         />
-        <YAxis 
-          axisLine={false} 
-          tickLine={false} 
-          tick={{ fill: '#6B7280', fontSize: 12 }}
+        <YAxis
+          axisLine={false}
+          tickLine={false}
+          tick={{ fill: "#6B7280", fontSize: 12 }}
           width={30}
         />
-        <Tooltip 
-          content={<CustomTooltip />} 
-          cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
+        <Tooltip
+          content={<CustomTooltip />}
+          cursor={{ fill: "rgba(0, 0, 0, 0.05)" }}
         />
-        <Bar 
-          dataKey="count" 
-          name={t('analytics.registrations')}
+        <Bar
+          dataKey="count"
+          name={t("analytics.registrations")}
           radius={[4, 4, 0, 0]}
         >
           {data.map((_, index) => (
-            <Cell 
-              key={`cell-${index}`} 
+            <Cell
+              key={`cell-${index}`}
               fill="#4F46E5" // Primary color
               fillOpacity={0.8}
             />

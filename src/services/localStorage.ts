@@ -1,5 +1,5 @@
-import { CsvService } from './enhancedCsvService';
-import type { Member, MemberFilters, MemberStats } from '../types/member';
+import { CsvService } from "./enhancedCsvService";
+import type { Member, MemberFilters, MemberStats } from "../types/member";
 
 /**
  * خدمة التخزين المحلي - غلاف لخدمة CSV
@@ -39,7 +39,10 @@ export class LocalStorageService {
   /**
    * تحديث عضو
    */
-  static async updateMember(id: string, updates: Partial<Member>): Promise<boolean> {
+  static async updateMember(
+    id: string,
+    updates: Partial<Member>,
+  ): Promise<boolean> {
     return await this.csvService.updateMember(id, updates);
   }
 

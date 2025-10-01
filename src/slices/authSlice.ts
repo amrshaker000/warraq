@@ -1,10 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface User {
   username: string;
   password: string;
-  role: 'admin' | 'user';
+  role: "admin" | "user";
   permissions: string[];
   displayName: string;
   displayNameEn: string;
@@ -23,58 +23,63 @@ export interface AuthState {
 // نظام الحسابات والصلاحيات
 const users: User[] = [
   {
-    username: 'Hawary',
-    password: 'Alfa404',
-    role: 'admin',
-    displayName: 'هواري',
-    displayNameEn: 'Hawary',
-    permissions: ['read', 'write', 'delete', 'export', 'import', 'admin']
+    username: "Hawary",
+    password: "Alfa404",
+    role: "admin",
+    displayName: "هواري",
+    displayNameEn: "Hawary",
+    permissions: ["read", "write", "delete", "export", "import", "admin"],
   },
   {
-    username: 'Tamer.AyoB',
-    password: 'Alfa404',
-    role: 'admin',
-    displayName: 'تامر أيوب',
-    displayNameEn: 'Tamer Ayoub',
-    permissions: ['read', 'write', 'delete', 'export', 'import', 'admin']
+    username: "Tamer.AyoB",
+    password: "Alfa404",
+    role: "admin",
+    displayName: "تامر أيوب",
+    displayNameEn: "Tamer Ayoub",
+    permissions: ["read", "write", "delete", "export", "import", "admin"],
   },
   {
-    username: 'UserName1',
-    password: '123456',
-    role: 'user',
-    displayName: 'مستخدم 1',
-    displayNameEn: 'User 1',
-    permissions: ['read', 'write', 'export', 'import']
+    username: "UserName1",
+    password: "123456",
+    role: "user",
+    displayName: "مستخدم 1",
+    displayNameEn: "User 1",
+    permissions: ["read", "write", "export", "import"],
   },
   {
-    username: 'UserName2',
-    password: '123456',
-    role: 'user',
-    displayName: 'مستخدم 2',
-    displayNameEn: 'User 2',
-    permissions: ['read', 'write', 'export', 'import']
+    username: "UserName2",
+    password: "123456",
+    role: "user",
+    displayName: "مستخدم 2",
+    displayNameEn: "User 2",
+    permissions: ["read", "write", "export", "import"],
   },
   {
-    username: 'UserName3',
-    password: '123456',
-    role: 'user',
-    displayName: 'مستخدم 3',
-    displayNameEn: 'User 3',
-    permissions: ['read', 'write', 'export', 'import']
+    username: "UserName3",
+    password: "123456",
+    role: "user",
+    displayName: "مستخدم 3",
+    displayNameEn: "User 3",
+    permissions: ["read", "write", "export", "import"],
   },
   {
-    username: 'admin',
-    password: 'admin',
-    role: 'admin',
-    displayName: 'مدير النظام',
-    displayNameEn: 'System Administrator',
-    permissions: ['read', 'write', 'delete', 'export', 'import', 'admin']
-  }
+    username: "admin",
+    password: "admin",
+    role: "admin",
+    displayName: "مدير النظام",
+    displayNameEn: "System Administrator",
+    permissions: ["read", "write", "delete", "export", "import", "admin"],
+  },
 ];
 
 // دالة للتحقق من صحة بيانات تسجيل الدخول
-export const authenticateUser = (username: string, password: string): User | null => {
-  const user = users.find(u => u.username === username && u.password === password);
+export const authenticateUser = (
+  username: string,
+  password: string,
+): User | null => {
+  const user = users.find(
+    (u) => u.username === username && u.password === password,
+  );
   return user || null;
 };
 
@@ -84,10 +89,13 @@ export const generateToken = (username: string): string => {
   const randomPart = Math.random().toString(36).substring(2, 15);
   return `token-${username}-${timestamp}-${randomPart}`;
 };
-export const validateStoredSession = (): { token: string | null; user: User | null } => {
+export const validateStoredSession = (): {
+  token: string | null;
+  user: User | null;
+} => {
   try {
-    const token = localStorage.getItem('token');
-    const userStr = localStorage.getItem('currentUser');
+    const token = localStorage.getItem("token");
+    const userStr = localStorage.getItem("currentUser");
 
     if (!token || !userStr) {
       return { token: null, user: null };
@@ -97,16 +105,16 @@ export const validateStoredSession = (): { token: string | null; user: User | nu
 
     // التحقق من صحة البيانات
     if (!user || !user.username || !user.role) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('currentUser');
+      localStorage.removeItem("token");
+      localStorage.removeItem("currentUser");
       return { token: null, user: null };
     }
 
     return { token, user };
   } catch (error) {
-    console.error('Error validating stored session:', error);
-    localStorage.removeItem('token');
-    localStorage.removeItem('currentUser');
+    console.error("Error validating stored session:", error);
+    localStorage.removeItem("token");
+    localStorage.removeItem("currentUser");
     return { token: null, user: null };
   }
 };
@@ -131,7 +139,11 @@ const initialState: AuthState = {
 
 // التحقق من وجود جلسة محفوظة عند بدء التطبيق
 const storedSession = validateStoredSession();
-if (storedSession.token && storedSession.user && !isSessionExpired(Date.now())) {
+if (
+  storedSession.token &&
+  storedSession.user &&
+  !isSessionExpired(Date.now())
+) {
   initialState.token = storedSession.token;
   initialState.isAuthenticated = true;
   initialState.user = storedSession.user;
@@ -139,7 +151,7 @@ if (storedSession.token && storedSession.user && !isSessionExpired(Date.now())) 
 }
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     loginStart(state) {
@@ -156,8 +168,8 @@ const authSlice = createSlice({
       state.error = null;
 
       // حفظ البيانات في localStorage
-      localStorage.setItem('token', action.payload.token);
-      localStorage.setItem('currentUser', JSON.stringify(action.payload.user));
+      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("currentUser", JSON.stringify(action.payload.user));
     },
     loginFailure(state, action: PayloadAction<string>) {
       state.isAuthenticated = false;
@@ -177,8 +189,8 @@ const authSlice = createSlice({
       state.error = null;
 
       // مسح البيانات من localStorage
-      localStorage.removeItem('token');
-      localStorage.removeItem('currentUser');
+      localStorage.removeItem("token");
+      localStorage.removeItem("currentUser");
     },
     clearError(state) {
       state.error = null;
@@ -186,15 +198,23 @@ const authSlice = createSlice({
   },
 });
 
-export const { login, loginStart, loginFailure, logout, clearError } = authSlice.actions;
+export const { login, loginStart, loginFailure, logout, clearError } =
+  authSlice.actions;
 
 // دالة للتحقق من وجود جلسة محفوظة وإعادتها
 export const checkStoredSession = () => {
   const storedSession = validateStoredSession();
-  if (storedSession.token && storedSession.user && !isSessionExpired(Date.now())) {
-    return { type: 'auth/login', payload: { token: storedSession.token, user: storedSession.user } };
+  if (
+    storedSession.token &&
+    storedSession.user &&
+    !isSessionExpired(Date.now())
+  ) {
+    return {
+      type: "auth/login",
+      payload: { token: storedSession.token, user: storedSession.user },
+    };
   }
-  return { type: 'auth/logout' };
+  return { type: "auth/logout" };
 };
 
 export default authSlice.reducer;

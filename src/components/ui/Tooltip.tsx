@@ -1,28 +1,39 @@
-import React, { useState, cloneElement } from 'react';
-import type { ReactElement, ReactNode, JSXElementConstructor, MouseEvent, FocusEvent } from 'react';
+import React, { useState, cloneElement } from "react";
+import type {
+  ReactElement,
+  ReactNode,
+  JSXElementConstructor,
+  MouseEvent,
+  FocusEvent,
+} from "react";
 
 interface TooltipProps {
   content: ReactNode;
-  children: ReactElement<{
-    onMouseEnter?: (e: MouseEvent) => void;
-    onMouseLeave?: (e: MouseEvent) => void;
-    onFocus?: (e: FocusEvent) => void;
-    onBlur?: (e: FocusEvent) => void;
-    className?: string;
-    style?: React.CSSProperties;
-  }, string | JSXElementConstructor<unknown>>;
-  position?: 'top' | 'right' | 'bottom' | 'left';
+  children: ReactElement<
+    {
+      onMouseEnter?: (e: MouseEvent) => void;
+      onMouseLeave?: (e: MouseEvent) => void;
+      onFocus?: (e: FocusEvent) => void;
+      onBlur?: (e: FocusEvent) => void;
+      className?: string;
+      style?: React.CSSProperties;
+    },
+    string | JSXElementConstructor<unknown>
+  >;
+  position?: "top" | "right" | "bottom" | "left";
   delay?: number;
 }
 
 const Tooltip: React.FC<TooltipProps> = ({
   content,
   children,
-  position = 'top',
+  position = "top",
   delay = 200,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout> | null>(null);
+  const [timeoutId, setTimeoutId] = useState<ReturnType<
+    typeof setTimeout
+  > | null>(null);
 
   const showTooltip = () => {
     const id = setTimeout(() => {
@@ -50,18 +61,20 @@ const Tooltip: React.FC<TooltipProps> = ({
 
   // Position classes
   const positionClasses = {
-    top: 'bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2',
-    right: 'left-full top-1/2 transform -translate-y-1/2 translate-x-2',
-    bottom: 'top-full left-1/2 transform -translate-x-1/2 translate-y-2',
-    left: 'right-full top-1/2 transform -translate-y-1/2 -translate-x-2',
+    top: "bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2",
+    right: "left-full top-1/2 transform -translate-y-1/2 translate-x-2",
+    bottom: "top-full left-1/2 transform -translate-x-1/2 translate-y-2",
+    left: "right-full top-1/2 transform -translate-y-1/2 -translate-x-2",
   };
 
   // Arrow classes
   const arrowClasses = {
-    top: 'bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45',
-    right: 'left-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45',
-    bottom: 'top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45',
-    left: 'right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 rotate-45',
+    top: "bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45",
+    right:
+      "left-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45",
+    bottom:
+      "top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45",
+    left: "right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 rotate-45",
   };
 
   // Safely clone the child element with our event handlers
@@ -87,7 +100,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   return (
     <div className="relative inline-block">
       {childWithProps}
-      
+
       {isVisible && (
         <div
           className={`absolute z-50 min-w-[120px] max-w-xs p-2 text-sm text-gray-900 bg-white border border-gray-200 rounded-md shadow-lg dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 ${positionClasses[position]}`}

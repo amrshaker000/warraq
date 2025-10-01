@@ -1,13 +1,13 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
 
 interface AnimatedSectionProps {
   children: React.ReactNode;
   className?: string;
   delay?: number;
   duration?: number;
-  direction?: 'up' | 'down' | 'left' | 'right';
+  direction?: "up" | "down" | "left" | "right";
   distance?: number;
   once?: boolean;
   threshold?: number;
@@ -15,30 +15,30 @@ interface AnimatedSectionProps {
 
 const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   children,
-  className = '',
+  className = "",
   delay = 0,
   duration = 0.6,
-  direction = 'up',
+  direction = "up",
   distance = 30,
   once = true,
-  threshold = 0.1
+  threshold = 0.1,
 }) => {
   const ref = React.useRef(null);
   const isInView = useInView(ref, {
     once,
     amount: threshold,
-    margin: "-10% 0px -10% 0px"
+    margin: "-10% 0px -10% 0px",
   });
 
   const getInitialPosition = () => {
     switch (direction) {
-      case 'up':
+      case "up":
         return { opacity: 0, y: distance };
-      case 'down':
+      case "down":
         return { opacity: 0, y: -distance };
-      case 'left':
+      case "left":
         return { opacity: 0, x: distance };
-      case 'right':
+      case "right":
         return { opacity: 0, x: -distance };
       default:
         return { opacity: 0, y: distance };
@@ -57,7 +57,7 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
       transition={{
         duration,
         delay,
-        ease: "easeOut" as const
+        ease: "easeOut" as const,
       }}
       className={className}
     >

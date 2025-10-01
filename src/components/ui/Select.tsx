@@ -1,5 +1,5 @@
-import React from 'react';
-import { clsx } from 'clsx';
+import React from "react";
+import { clsx } from "clsx";
 
 interface SelectOption {
   value: string;
@@ -30,7 +30,7 @@ const Select: React.FC<SelectProps> = ({
   const selectId = id || `select-${Math.random().toString(36).substr(2, 9)}`;
 
   return (
-    <div className={clsx('space-y-1', fullWidth && 'w-full')}>
+    <div className={clsx("space-y-1", fullWidth && "w-full")}>
       {label && (
         <label
           htmlFor={selectId}
@@ -43,9 +43,10 @@ const Select: React.FC<SelectProps> = ({
       <select
         id={selectId}
         className={clsx(
-          'block w-full rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 hover:border-gray-300 dark:hover:border-gray-500 shadow-sm hover:shadow-md focus:shadow-lg py-3',
-          error && 'border-red-500 focus:ring-red-500 focus:border-red-500 dark:border-red-400 dark:focus:ring-red-400 dark:focus:border-red-400',
-          className
+          "block w-full rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200 hover:border-gray-300 dark:hover:border-gray-500 shadow-sm hover:shadow-md focus:shadow-lg py-3",
+          error &&
+            "border-red-500 focus:ring-red-500 focus:border-red-500 dark:border-red-400 dark:focus:ring-red-400 dark:focus:border-red-400",
+          className,
         )}
         {...props}
       >

@@ -1,7 +1,8 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
-import Button from './ui/Button';
-import Card from './ui/Card';
+import { Component } from "react";
+import type { ErrorInfo, ReactNode } from "react";
+import { AlertTriangle, RefreshCw, Home } from "lucide-react";
+import Button from "./ui/Button";
+import Card from "./ui/Card";
 
 /**
  * واجهة تعريف خصائص مكون حاجز الأخطاء
@@ -59,7 +60,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     this.props.onError?.(error, errorInfo);
 
     // تسجيل الخطأ في وحدة التحكم للتصحيح
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    console.error("ErrorBoundary caught an error:", error, errorInfo);
   }
 
   /**
@@ -73,7 +74,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
    * الانتقال إلى الصفحة الرئيسية
    */
   handleGoHome = () => {
-    window.location.href = '/';
+    window.location.href = "/";
   };
 
   /**
@@ -89,15 +90,15 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   getErrorMessage = (): string => {
     const { error } = this.state;
 
-    if (error?.name === 'ChunkLoadError') {
-      return 'فشل في تحميل موارد التطبيق. يرجى إعادة تحميل الصفحة.';
+    if (error?.name === "ChunkLoadError") {
+      return "فشل في تحميل موارد التطبيق. يرجى إعادة تحميل الصفحة.";
     }
 
-    if (error?.message?.includes('Network Error')) {
-      return 'مشكلة في الاتصال بالشبكة. يرجى التحقق من الاتصال والمحاولة مرة أخرى.';
+    if (error?.message?.includes("Network Error")) {
+      return "مشكلة في الاتصال بالشبكة. يرجى التحقق من الاتصال والمحاولة مرة أخرى.";
     }
 
-    return 'حدث خطأ غير متوقع في التطبيق. يرجى المحاولة مرة أخرى أو الاتصال بالدعم الفني.';
+    return "حدث خطأ غير متوقع في التطبيق. يرجى المحاولة مرة أخرى أو الاتصال بالدعم الفني.";
   };
 
   /**
@@ -106,15 +107,15 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   getErrorMessageEn = (): string => {
     const { error } = this.state;
 
-    if (error?.name === 'ChunkLoadError') {
-      return 'Failed to load application resources. Please reload the page.';
+    if (error?.name === "ChunkLoadError") {
+      return "Failed to load application resources. Please reload the page.";
     }
 
-    if (error?.message?.includes('Network Error')) {
-      return 'Network connection problem. Please check your connection and try again.';
+    if (error?.message?.includes("Network Error")) {
+      return "Network connection problem. Please check your connection and try again.";
     }
 
-    return 'An unexpected error occurred in the application. Please try again or contact technical support.';
+    return "An unexpected error occurred in the application. Please try again or contact technical support.";
   };
 
   /**
@@ -122,7 +123,12 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
    */
   render() {
     const { hasError, error, errorInfo } = this.state;
-    const { children, fallback, showHomeButton = true, showReloadButton = true } = this.props;
+    const {
+      children,
+      fallback,
+      showHomeButton = true,
+      showReloadButton = true,
+    } = this.props;
 
     // إذا لم يحدث خطأ، عرض المحتوى العادي
     if (!hasError) {

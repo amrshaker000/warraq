@@ -244,8 +244,7 @@
     "pagination": {
       "showing": "عرض {{from}} إلى {{to}} من أصل {{total}} عضو",
       "showingMobile": "{{current}} / {{total}}"
-    }
-    ,
+    },
     "table": {
       "selectAll": "تحديد الكل",
       "showingResults": "عرض {{current}} من {{total}} عضو",

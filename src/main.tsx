@@ -1,22 +1,22 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { I18nextProvider } from 'react-i18next';
-import { BrowserRouter } from 'react-router-dom';
-import './index.css';
-import App from './App.tsx';
-import i18n from './i18n';
-import { store } from './store';
-import { ThemeProvider } from './contexts/ThemeContext';
-import { ToastProvider } from './contexts/ToastContext';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import { I18nextProvider } from "react-i18next";
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
+import App from "./App.tsx";
+import i18n from "./i18n";
+import { store } from "./store";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import { ToastProvider } from "./contexts/ToastContext";
 
 // Global reference to prevent multiple root creation
 let appRoot: ReturnType<typeof createRoot> | null = null;
 
 function initializeApp() {
-  const container = document.getElementById('root');
+  const container = document.getElementById("root");
   if (!container) {
-    console.error('Root container not found');
+    console.error("Root container not found");
     return;
   }
 
@@ -39,7 +39,7 @@ function initializeApp() {
           </ThemeProvider>
         </I18nextProvider>
       </Provider>
-    </StrictMode>
+    </StrictMode>,
   );
 }
 

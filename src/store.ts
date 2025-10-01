@@ -1,18 +1,16 @@
-import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './slices/authSlice';
-import membersReducer from './slices/membersSlice';
-import themeReducer from './slices/themeSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./slices/authSlice";
+import membersReducer from "./slices/membersSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     members: membersReducer,
-    theme: themeReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ['persist/PERSIST'],
+        ignoredActions: ["persist/PERSIST"],
       },
     }),
 });

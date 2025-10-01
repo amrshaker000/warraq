@@ -3,7 +3,7 @@
  * @fileoverview يحتوي على جميع تعريفات الأنواع المستخدمة في التطبيق
  */
 
-import type { Member, MemberFilters, MemberStats } from './member';
+import type { Member, MemberFilters, MemberStats } from "./member";
 
 /**
  * تعريفات الأنواع العامة للتطبيق
@@ -18,7 +18,7 @@ export interface ApiResponse<T = unknown> {
 /**
  * تعريفات حالات الاستجابة من API
  */
-export type LoadingState = 'idle' | 'loading' | 'success' | 'error';
+export type LoadingState = "idle" | "loading" | "success" | "error";
 
 export interface AsyncState<T = unknown> {
   data: T | null;
@@ -32,7 +32,7 @@ export interface AsyncState<T = unknown> {
 export interface User {
   id: string;
   username: string;
-  role: 'admin' | 'user' | 'viewer';
+  role: "admin" | "user" | "viewer";
   permissions: string[];
   createdAt: string;
   lastLogin?: string;
@@ -49,8 +49,8 @@ export interface AuthState {
  * تعريفات الإعدادات
  */
 export interface AppSettings {
-  theme: 'light' | 'dark' | 'auto';
-  language: 'ar' | 'en';
+  theme: "light" | "dark" | "auto";
+  language: "ar" | "en";
   notifications: {
     enabled: boolean;
     sound: boolean;
@@ -58,7 +58,7 @@ export interface AppSettings {
   };
   data: {
     autoSave: boolean;
-    backupFrequency: 'daily' | 'weekly' | 'monthly';
+    backupFrequency: "daily" | "weekly" | "monthly";
   };
 }
 
@@ -69,7 +69,7 @@ export interface ActivityLog {
   id: string;
   userId: string;
   action: string;
-  entityType: 'member' | 'setting' | 'system';
+  entityType: "member" | "setting" | "system";
   entityId?: string;
   details?: Record<string, unknown>;
   timestamp: string;
@@ -108,7 +108,7 @@ export interface ImportResult {
 }
 
 export interface ExportOptions {
-  format: 'csv' | 'excel' | 'pdf';
+  format: "csv" | "excel" | "pdf";
   includeHeaders: boolean;
   filters?: MemberFilters;
   selectedFields?: string[];
@@ -126,10 +126,10 @@ export class AppError extends Error {
     message: string,
     code?: string,
     statusCode?: number,
-    details?: unknown
+    details?: unknown,
   ) {
     super(message);
-    this.name = 'AppError';
+    this.name = "AppError";
     this.code = code;
     this.statusCode = statusCode;
     this.details = details;
@@ -140,8 +140,8 @@ export class ValidationError extends AppError {
   public readonly field?: string;
 
   constructor(message: string, field?: string) {
-    super(message, 'VALIDATION_ERROR', 400);
-    this.name = 'ValidationError';
+    super(message, "VALIDATION_ERROR", 400);
+    this.name = "ValidationError";
     this.field = field;
   }
 }
@@ -151,8 +151,8 @@ export class NetworkError extends AppError {
 
   constructor(message: string, statusCode?: number) {
     const code = statusCode || 0;
-    super(message, 'NETWORK_ERROR', code);
-    this.name = 'NetworkError';
+    super(message, "NETWORK_ERROR", code);
+    this.name = "NetworkError";
     this.statusCode = statusCode;
   }
 }
@@ -172,7 +172,7 @@ export interface PaginationParams {
   page?: number;
   limit?: number;
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
 }
 
 export interface PaginatedResponse<T> {
@@ -203,11 +203,11 @@ export interface NavigationItem {
 export interface BaseComponentProps {
   className?: string;
   children?: React.ReactNode;
-  'data-testid'?: string;
+  "data-testid"?: string;
 }
 
 export interface LoadingProps extends BaseComponentProps {
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
   text?: string;
 }
 
@@ -236,7 +236,7 @@ export interface TestData {
 export interface EnvironmentVariables {
   API_URL: string;
   APP_VERSION: string;
-  NODE_ENV: 'development' | 'production' | 'test';
+  NODE_ENV: "development" | "production" | "test";
   ENABLE_ANALYTICS: boolean;
   MAX_FILE_SIZE: number;
 }
@@ -246,9 +246,9 @@ export interface EnvironmentVariables {
  */
 export interface BackupConfig {
   enabled: boolean;
-  schedule: 'daily' | 'weekly' | 'monthly';
+  schedule: "daily" | "weekly" | "monthly";
   retentionDays: number;
-  location: 'local' | 'cloud';
+  location: "local" | "cloud";
   encryption: boolean;
 }
 

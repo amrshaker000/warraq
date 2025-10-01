@@ -1,6 +1,6 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../store';
+import React from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store";
 
 interface PermissionGuardProps {
   children: React.ReactNode;
@@ -13,7 +13,7 @@ const PermissionGuard: React.FC<PermissionGuardProps> = ({
   children,
   permissions = [],
   requireAll = false,
-  fallback = null
+  fallback = null,
 }) => {
   const { user } = useSelector((state: RootState) => state.auth);
 
@@ -28,8 +28,8 @@ const PermissionGuard: React.FC<PermissionGuardProps> = ({
 
   // التحقق من الصلاحيات
   const hasPermission = requireAll
-    ? permissions.every(permission => user.permissions.includes(permission))
-    : permissions.some(permission => user.permissions.includes(permission));
+    ? permissions.every((permission) => user.permissions.includes(permission))
+    : permissions.some((permission) => user.permissions.includes(permission));
 
   return hasPermission ? <>{children}</> : <>{fallback}</>;
 };

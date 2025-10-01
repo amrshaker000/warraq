@@ -1,11 +1,5 @@
 import type { Member, MemberStats, MemberFilters } from '../types/member';
 
-interface CsvFileHandle {
-  handle: FileSystemFileHandle;
-  lastModified: number;
-  content: string;
-}
-
 // Define types for File System Access API
 interface FilePickerOptions {
   types?: Array<{
@@ -25,14 +19,12 @@ interface FileSystemFileHandle {
 declare global {
   interface Window {
     showOpenFilePicker?: (options?: FilePickerOptions) => Promise<FileSystemFileHandle[]>;
-    showSaveFilePicker?: (options?: FilePickerOptions) => Promise<FileSystemFileHandle>;
   }
 }
 
 export class CsvService {
   private static instance: CsvService;
-  private readonly STORAGE_KEY = 'members_csv_file_handle';
-  private fileHandle: CsvFileHandle | null = null;
+  private readonly STORAGE_KEY = "members_csv_file_handle";
   private currentMembers: Member[] = [];
 
   private constructor() {
@@ -83,12 +75,6 @@ export class CsvService {
         if (fileHandle) {
           const file = await fileHandle.getFile();
           const content = await file.text();
-
-          this.fileHandle = {
-            handle: fileHandle,
-            lastModified: file.lastModified,
-            content: content
-          };
 
           this.currentMembers = this.parseCsvContent(content);
 
@@ -141,12 +127,6 @@ export class CsvService {
     // CSV export feature has been disabled
     console.log('CSV export is disabled');
     return true;
-  }
-
-  // Download CSV file as fallback - DISABLED
-  private downloadCsvFile(): void {
-    // CSV export feature has been disabled
-    console.log('CSV export is disabled');
   }
 
   // Helper method to parse CSV content
@@ -212,14 +192,6 @@ export class CsvService {
     }
     result.push(current);
     return result;
-  }
-
-  // Helper method to escape CSV field
-  private escapeCsvField(field: string): string {
-    if (field.includes(',') || field.includes('"') || field.includes('\n')) {
-      return `"${field.replace(/"/g, '""')}"`;
-    }
-    return field;
   }
 
   // Get all members from current data
@@ -395,48 +367,11 @@ export class CsvService {
     );
   }
 
-  // Generate CSV content from members array
-  private generateCsvContent(members: Member[]): string {
-    const headers = [
-      'id', 'fullName', 'nationalId', 'gender', 'phoneNumber', 'email',
-      'membershipNumber', 'age', 'address', 'partyUnit', 'job', 'status',
-      'membershipType', 'financialSupport'
-    ];
-
-    const csvContent = [
-      headers.join(','),
-      ...members.map(member => [
-        member.id,
-        member.fullName,
-        member.nationalId,
-        member.gender,
-        member.phoneNumber,
-        member.email,
-        member.membershipNumber,
-        member.age.toString(),
-        member.address || '',
-        member.partyUnit || '',
-        member.job || '',
-        member.status,
-        member.membershipType,
-        member.financialSupport
-      ].map(field => this.escapeCsvField(field)).join(','))
-    ].join('\n');
-
-    return csvContent;
-  }
-
   // Export members to CSV format - DISABLED
   exportToCsv(): string {
     // CSV export feature has been disabled
     console.log('CSV export is disabled');
     return '';
-  }
-
-  // Import from CSV content
-  async importFromCsv(csvContent: string): Promise<{ success: number; errors: string[]; duplicates: number }> {
-    const members = this.parseCsvContent(csvContent);
-    return this.importFromExcel(members);
   }
 
   // Import from Excel (using same logic as CSV)
@@ -518,6 +453,5 @@ export class CsvService {
     this.currentMembers = [];
     localStorage.removeItem('members_data');
     localStorage.removeItem(this.STORAGE_KEY);
-    this.fileHandle = null;
   }
 }

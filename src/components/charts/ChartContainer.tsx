@@ -1,7 +1,7 @@
-import React from 'react';
-import type { ReactNode } from 'react';
-import { Tooltip, Card } from '../ui';
-import { HelpCircle } from 'lucide-react';
+import React from "react";
+import type { ReactNode } from "react";
+import { Tooltip, Card } from "../ui";
+import { HelpCircle } from "lucide-react";
 
 interface ChartContainerProps {
   title: string;
@@ -14,15 +14,15 @@ interface ChartContainerProps {
   emptyMessage?: string;
 }
 
-const ChartContainer: React.FC<ChartContainerProps> = ({ 
-  title, 
-  children, 
-  className = '',
-  height = 'h-48 lg:h-64',
+const ChartContainer: React.FC<ChartContainerProps> = ({
+  title,
+  children,
+  className = "",
+  height = "h-48 lg:h-64",
   description,
   isLoading = false,
   isEmpty = false,
-  emptyMessage = 'No data available',
+  emptyMessage = "No data available",
 }) => {
   return (
     <Card className={`p-4 lg:p-6 ${className}`}>
@@ -32,16 +32,19 @@ const ChartContainer: React.FC<ChartContainerProps> = ({
         </h3>
         {description && (
           <Tooltip content={description}>
-            <button type="button" className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+            <button
+              type="button"
+              className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+            >
               <HelpCircle className="h-4 w-4" />
               <span className="sr-only">Info</span>
             </button>
           </Tooltip>
         )}
       </div>
-      <div 
+      <div
         className={`w-full ${height} flex items-center justify-center ${
-          isLoading ? 'animate-pulse' : ''
+          isLoading ? "animate-pulse" : ""
         }`}
       >
         {isLoading ? (

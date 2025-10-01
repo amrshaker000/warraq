@@ -1,27 +1,29 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import type { Member } from '../../types/member';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import type { Member } from "../../types/member";
 
 interface AgeDistributionChartProps {
   members: Member[];
 }
 
-const AgeDistributionChart: React.FC<AgeDistributionChartProps> = ({ members }) => {
+const AgeDistributionChart: React.FC<AgeDistributionChartProps> = ({
+  members,
+}) => {
   const { t } = useTranslation();
   // Calculate age distribution
   const ageGroups = {
-    '18-25': 0,
-    '26-35': 0,
-    '36-65': 0,
-    '65+': 0,
+    "18-25": 0,
+    "26-35": 0,
+    "36-65": 0,
+    "65+": 0,
   };
 
-  members.forEach(member => {
+  members.forEach((member) => {
     const age = member.age;
-    if (age >= 18 && age <= 25) ageGroups['18-25']++;
-    else if (age >= 26 && age <= 35) ageGroups['26-35']++;
-    else if (age >= 36 && age <= 65) ageGroups['36-65']++;
-    else if (age > 65) ageGroups['65+']++;
+    if (age >= 18 && age <= 25) ageGroups["18-25"]++;
+    else if (age >= 26 && age <= 35) ageGroups["26-35"]++;
+    else if (age >= 36 && age <= 65) ageGroups["36-65"]++;
+    else if (age > 65) ageGroups["65+"]++;
   });
 
   const maxCount = Math.max(...Object.values(ageGroups));
@@ -31,7 +33,8 @@ const AgeDistributionChart: React.FC<AgeDistributionChartProps> = ({ members }) 
     <div className="w-full h-full">
       <div className="space-y-4">
         {Object.entries(ageGroups).map(([group, count]) => {
-          const percentage = totalMembers > 0 ? (count / totalMembers) * 100 : 0;
+          const percentage =
+            totalMembers > 0 ? (count / totalMembers) * 100 : 0;
           const barWidth = maxCount > 0 ? (count / maxCount) * 100 : 0;
 
           return (
@@ -54,10 +57,9 @@ const AgeDistributionChart: React.FC<AgeDistributionChartProps> = ({ members }) 
           );
         })}
       </div>
-      
+
       {totalMembers === 0 && (
-        <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
-        </div>
+        <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400"></div>
       )}
     </div>
   );

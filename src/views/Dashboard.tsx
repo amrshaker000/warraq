@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import React, { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import {
   Users,
   UserCheck,
@@ -14,17 +14,16 @@ import {
   Plus,
   ArrowRight,
   Calendar,
-  RefreshCw
-} from 'lucide-react';
-import Sidebar from '../components/Sidebar';
-import TopNav from '../components/TopNav';
-import Card from '../components/ui/Card';
-import Button from '../components/ui/Button';
-import AnimatedButton from '../components/animations/AnimatedButton';
-import { useToastContext } from '../contexts/ToastContext';
-import { useMembersData } from '../hooks/useMembersData';
-import mainLogo from '../../images/main logo.jpg';
-
+  RefreshCw,
+} from "lucide-react";
+import Sidebar from "../components/Sidebar";
+import TopNav from "../components/TopNav";
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
+import AnimatedButton from "../components/animations/AnimatedButton";
+import { useToastContext } from "../hooks/useToastContext";
+import { useMembersData } from "../hooks/useMembersData";
+import mainLogo from "../../images/main logo.jpg";
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
@@ -39,16 +38,16 @@ const Dashboard: React.FC = () => {
       setIsRefreshing(true);
       await refreshData();
       addToast({
-        type: 'success',
-        title: t('common.success'),
-        message: t('common.refreshSuccess')
+        type: "success",
+        title: t("common.success"),
+        message: t("common.refreshSuccess"),
       });
     } catch (error) {
-      console.error('Error refreshing data:', error);
+      console.error("Error refreshing data:", error);
       addToast({
-        type: 'error',
-        title: t('common.error'),
-        message: t('common.refreshError')
+        type: "error",
+        title: t("common.error"),
+        message: t("common.refreshError"),
       });
     } finally {
       setIsRefreshing(false);
@@ -58,76 +57,88 @@ const Dashboard: React.FC = () => {
   const features = [
     {
       icon: <Shield className="h-8 w-8" />,
-      title: t('dashboard.features.security.title'),
-      description: t('dashboard.features.security.description')
+      title: t("dashboard.features.security.title"),
+      description: t("dashboard.features.security.description"),
     },
     {
       icon: <Zap className="h-8 w-8" />,
-      title: t('dashboard.features.performance.title'),
-      description: t('dashboard.features.performance.description')
+      title: t("dashboard.features.performance.title"),
+      description: t("dashboard.features.performance.description"),
     },
     {
       icon: <Globe className="h-8 w-8" />,
-      title: t('dashboard.features.localization.title'),
-      description: t('dashboard.features.localization.description')
+      title: t("dashboard.features.localization.title"),
+      description: t("dashboard.features.localization.description"),
     },
     {
       icon: <Heart className="h-8 w-8" />,
-      title: t('dashboard.features.ux.title'),
-      description: t('dashboard.features.ux.description')
-    }
+      title: t("dashboard.features.ux.title"),
+      description: t("dashboard.features.ux.description"),
+    },
   ];
 
   // Initialize default stats to avoid null checks throughout the component
-  const safeStats = useMemo(() => ({
-    totalMembers: stats?.totalMembers || 0,
-    activeMembers: stats?.activeMembers || 0,
-    paidMembers: stats?.paidMembers || 0,
-    recentRegistrations: stats?.recentRegistrations || 0,
-    inactiveMembers: stats?.inactiveMembers || 0,
-    suspendedMembers: stats?.suspendedMembers || 0,
-    maleMembers: stats?.maleMembers || 0,
-    femaleMembers: stats?.femaleMembers || 0
-  }), [stats]);
+  const safeStats = useMemo(
+    () => ({
+      totalMembers: stats?.totalMembers || 0,
+      activeMembers: stats?.activeMembers || 0,
+      paidMembers: stats?.paidMembers || 0,
+      recentRegistrations: stats?.recentRegistrations || 0,
+      inactiveMembers: stats?.inactiveMembers || 0,
+      suspendedMembers: stats?.suspendedMembers || 0,
+      maleMembers: stats?.maleMembers || 0,
+      femaleMembers: stats?.femaleMembers || 0,
+    }),
+    [stats],
+  );
 
-  const statCards = useMemo(() => [
-    {
-      title: t('dashboard.totalMembers'),
-      value: safeStats.totalMembers,
-      icon: <Users className="h-8 w-8" />,
-      color: 'text-blue-600 dark:text-blue-400',
-      bgColor: 'bg-blue-100 dark:bg-blue-900',
-      gradient: 'from-blue-500 to-blue-600',
-      link: '/members'
-    },
-    {
-      title: t('dashboard.activeMembers'),
-      value: safeStats.activeMembers,
-      icon: <UserCheck className="h-8 w-8" />,
-      color: 'text-green-600 dark:text-green-400',
-      bgColor: 'bg-green-100 dark:bg-green-900',
-      gradient: 'from-green-500 to-green-600',
-      link: '/members?status=active'
-    },
-    {
-      title: t('dashboard.financialSupport'),
-      value: safeStats.paidMembers,
-      icon: <DollarSign className="h-8 w-8" />,
-      color: 'text-yellow-600 dark:text-yellow-400',
-      bgColor: 'bg-yellow-100 dark:bg-yellow-900',
-      gradient: 'from-yellow-500 to-orange-500',
-      link: '/members?financialSupport=paid'
-    },
-    {
-      title: t('dashboard.recentActivity'),
-      value: safeStats.recentRegistrations,
-      icon: <TrendingUp className="h-8 w-8" />,
-      color: 'text-purple-600 dark:text-purple-400',
-      bgColor: 'bg-purple-100 dark:bg-purple-900',
-      gradient: 'from-purple-500 to-pink-500',
-      link: '/analytics'
-    },
-  ], [safeStats.activeMembers, safeStats.paidMembers, safeStats.recentRegistrations, safeStats.totalMembers, t]);
+  const statCards = useMemo(
+    () => [
+      {
+        title: t("dashboard.totalMembers"),
+        value: safeStats.totalMembers,
+        icon: <Users className="h-8 w-8" />,
+        color: "text-blue-600 dark:text-blue-400",
+        bgColor: "bg-blue-100 dark:bg-blue-900",
+        gradient: "from-blue-500 to-blue-600",
+        link: "/members",
+      },
+      {
+        title: t("dashboard.activeMembers"),
+        value: safeStats.activeMembers,
+        icon: <UserCheck className="h-8 w-8" />,
+        color: "text-green-600 dark:text-green-400",
+        bgColor: "bg-green-100 dark:bg-green-900",
+        gradient: "from-green-500 to-green-600",
+        link: "/members?status=active",
+      },
+      {
+        title: t("dashboard.financialSupport"),
+        value: safeStats.paidMembers,
+        icon: <DollarSign className="h-8 w-8" />,
+        color: "text-yellow-600 dark:text-yellow-400",
+        bgColor: "bg-yellow-100 dark:bg-yellow-900",
+        gradient: "from-yellow-500 to-orange-500",
+        link: "/members?financialSupport=paid",
+      },
+      {
+        title: t("dashboard.recentActivity"),
+        value: safeStats.recentRegistrations,
+        icon: <TrendingUp className="h-8 w-8" />,
+        color: "text-purple-600 dark:text-purple-400",
+        bgColor: "bg-purple-100 dark:bg-purple-900",
+        gradient: "from-purple-500 to-pink-500",
+        link: "/analytics",
+      },
+    ],
+    [
+      safeStats.activeMembers,
+      safeStats.paidMembers,
+      safeStats.recentRegistrations,
+      safeStats.totalMembers,
+      t,
+    ],
+  );
 
   return (
     <div className="min-h-screen flex bg-gray-50 dark:bg-gray-900">
@@ -152,28 +163,29 @@ const Dashboard: React.FC = () => {
                   نظام إدارة سجلات الأعضاء
                 </h1>
                 <p className="text-xl lg:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
-                  إدارة شاملة وفعالة للسجلات الأعضاء مع تقارير متقدمة وتحليلات ذكية
+                  إدارة شاملة وفعالة للسجلات الأعضاء مع تقارير متقدمة وتحليلات
+                  ذكية
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <AnimatedButton
                     variant="primary"
                     size="lg"
-                    onClick={() => navigate('/members')}
+                    onClick={() => navigate("/members")}
                     leftIcon={<Users className="h-5 w-5" />}
                     className="bg-white text-blue-800 hover:bg-gray-100"
                     delay={0.1}
                   >
-                    <span>{t('navigation.viewMembers')}</span>
+                    <span>{t("navigation.viewMembers")}</span>
                   </AnimatedButton>
                   <AnimatedButton
                     variant="secondary"
                     size="lg"
-                    onClick={() => navigate('/analytics')}
+                    onClick={() => navigate("/analytics")}
                     leftIcon={<BarChart3 className="h-5 w-5" />}
                     className="border-white text-white hover:bg-white hover:text-blue-600"
                     delay={0.2}
                   >
-                    {t('navigation.analytics')}
+                    {t("navigation.analytics")}
                   </AnimatedButton>
                 </div>
               </div>
@@ -188,12 +200,16 @@ const Dashboard: React.FC = () => {
                   مميزات النظام
                 </h2>
                 <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                  نظام شامل يوفر جميع الأدوات اللازمة لإدارة الأعضاء بكفاءة عالية
+                  نظام شامل يوفر جميع الأدوات اللازمة لإدارة الأعضاء بكفاءة
+                  عالية
                 </p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {features.map((feature, index) => (
-                  <Card key={index} className="p-6 text-center hover:shadow-lg transition-shadow duration-300 border-0 shadow-md">
+                  <Card
+                    key={index}
+                    className="p-6 text-center hover:shadow-lg transition-shadow duration-300 border-0 shadow-md"
+                  >
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full text-white mb-4">
                       {feature.icon}
                     </div>
@@ -222,7 +238,7 @@ const Dashboard: React.FC = () => {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                 {statCards.map((card, index) => (
-                  <div 
+                  <div
                     key={index}
                     onClick={() => card.link && navigate(card.link)}
                     className="cursor-pointer"
@@ -252,7 +268,8 @@ const Dashboard: React.FC = () => {
                       </div>
                     </Card>
                   </div>
-                ))}{/* Additional Stats */}
+                ))}
+                {/* Additional Stats */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <Card className="p-6">
                     <div className="mb-4">
@@ -263,16 +280,28 @@ const Dashboard: React.FC = () => {
                     </div>
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-green-600 dark:text-green-400 font-medium">نشط</span>
-                        <span className="text-gray-900 dark:text-white">{safeStats.activeMembers}</span>
+                        <span className="text-green-600 dark:text-green-400 font-medium">
+                          نشط
+                        </span>
+                        <span className="text-gray-900 dark:text-white">
+                          {safeStats.activeMembers}
+                        </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-yellow-600 dark:text-yellow-400 font-medium">غير نشط</span>
-                        <span className="text-gray-900 dark:text-white">{safeStats.inactiveMembers}</span>
+                        <span className="text-yellow-600 dark:text-yellow-400 font-medium">
+                          غير نشط
+                        </span>
+                        <span className="text-gray-900 dark:text-white">
+                          {safeStats.inactiveMembers}
+                        </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-red-600 dark:text-red-400 font-medium">معلق</span>
-                        <span className="text-gray-900 dark:text-white">{safeStats.suspendedMembers}</span>
+                        <span className="text-red-600 dark:text-red-400 font-medium">
+                          معلق
+                        </span>
+                        <span className="text-gray-900 dark:text-white">
+                          {safeStats.suspendedMembers}
+                        </span>
                       </div>
                     </div>
                   </Card>
@@ -285,12 +314,20 @@ const Dashboard: React.FC = () => {
                     </div>
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-blue-600 dark:text-blue-400 font-medium">ذكر</span>
-                        <span className="text-gray-900 dark:text-white">{safeStats.maleMembers}</span>
+                        <span className="text-blue-600 dark:text-blue-400 font-medium">
+                          ذكر
+                        </span>
+                        <span className="text-gray-900 dark:text-white">
+                          {safeStats.maleMembers}
+                        </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-pink-600 dark:text-pink-400 font-medium">أنثى</span>
-                        <span className="text-gray-900 dark:text-white">{safeStats.femaleMembers}</span>
+                        <span className="text-pink-600 dark:text-pink-400 font-medium">
+                          أنثى
+                        </span>
+                        <span className="text-gray-900 dark:text-white">
+                          {safeStats.femaleMembers}
+                        </span>
                       </div>
                     </div>
                   </Card>
@@ -305,12 +342,12 @@ const Dashboard: React.FC = () => {
               <h2 className="text-3xl lg:text-4xl font-bold mb-6">
                 ابدأ في إدارة أعضاءك
               </h2>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <AnimatedButton
                   variant="primary"
                   size="lg"
-                  onClick={() => navigate('/entry')}
+                  onClick={() => navigate("/entry")}
                   leftIcon={<Plus className="h-5 w-5" />}
                   className="bg-white text-blue-600 hover:bg-gray-100"
                   delay={0.1}
@@ -320,7 +357,7 @@ const Dashboard: React.FC = () => {
                 <AnimatedButton
                   variant="secondary"
                   size="lg"
-                  onClick={() => navigate('/members')}
+                  onClick={() => navigate("/members")}
                   leftIcon={<Users className="h-5 w-5" />}
                   className="border-white text-white hover:bg-white hover:text-blue-600"
                   delay={0.2}
@@ -355,8 +392,7 @@ const Dashboard: React.FC = () => {
                   <p className="text-gray-500 dark:text-gray-400 text-lg">
                     {safeStats.recentRegistrations > 0
                       ? `تم تسجيل ${safeStats.recentRegistrations} عضو جديد في آخر 30 يوم`
-                      : 'لا توجد تسجيلات حديثة'
-                    }
+                      : "لا توجد تسجيلات حديثة"}
                   </p>
                 </div>
               </Card>

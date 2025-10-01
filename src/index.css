@@ -1,5 +1,5 @@
 /* Import RTL styles */
-@import './styles/rtl.css';
+@import "./styles/rtl.css";
 
 @tailwind base;
 @tailwind components;
