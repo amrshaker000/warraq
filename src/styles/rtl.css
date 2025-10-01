@@ -1,0 +1,59 @@
+/* RTL Specific Styles */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Ensure text elements are right-aligned in RTL */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6,
+[dir="rtl"] p,
+[dir="rtl"] div,
+[dir="rtl"] span,
+[dir="rtl"] a,
+[dir="rtl"] button,
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select,
+[dir="rtl"] label {
+  text-align: right;
+}
+
+/* Fix for form elements in RTL */
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select {
+  text-align: right;
+  direction: rtl;
+}
+
+/* Fix for buttons with icons */
+[dir="rtl"] .flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+/* Fix for dropdown menus */
+[dir="rtl"] .dropdown-menu {
+  text-align: right;
+  left: auto;
+  right: 0;
+}
+
+/* Fix for tables */
+[dir="rtl"] table {
+  direction: rtl;
+}
+
+[dir="rtl"] th,
+[dir="rtl"] td {
+  text-align: right;
+}
+
+/* Fix for icons in buttons */
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
