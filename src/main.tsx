@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { I18nextProvider } from "react-i18next";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom"; 
 import "./index.css";
 import App from "./App.tsx";
 import i18n from "./i18n";
@@ -32,9 +32,9 @@ function initializeApp() {
         <I18nextProvider i18n={i18n}>
           <ThemeProvider>
             <ToastProvider>
-              <BrowserRouter>
+              <HashRouter>  {}
                 <App />
-              </BrowserRouter>
+              </HashRouter>
             </ToastProvider>
           </ThemeProvider>
         </I18nextProvider>
