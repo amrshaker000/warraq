@@ -38,7 +38,7 @@ const Loading: React.FC<LoadingProps> = ({
     >
       <Loader2
         className={clsx(
-          "animate-spin text-blue-600 dark:text-blue-400",
+          "animate-spin text-red-600 dark:text-red-400",
           sizeClasses[size],
         )}
         aria-hidden="true"

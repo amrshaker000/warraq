@@ -20,22 +20,15 @@ export class ExcelService {
         "الاسم بالكامل": member.fullName,
         "الرقم القومي": member.nationalId,
         الجنس: member.gender === "male" ? "ذكر" : "أنثى",
-        "رقم الهاتف": member.phoneNumber,
-        "الوحدة الحزبية": member.partyUnit || "",
-        "البريد الإلكتروني": member.email,
-        "رقم العضوية": member.membershipNumber,
+        الديانة: member.religion === "muslim" ? "مسلم" : "مسيحي",
         العمر: member.age,
-        العنوان: member.address,
+        "رقم الهاتف": member.phoneNumber,
+        "البريد الإلكتروني": member.email,
         الوظيفة: member.job,
-        "حالة العضو":
-          member.status === "active"
-            ? "نشط"
-            : member.status === "inactive"
-              ? "غير نشط"
-              : "معلق",
+        العنوان: member.address,
+        "الوحدة الحزبية": member.partyUnit || "",
+        "رقم العضوية": member.membershipNumber,
         "نوع العضوية": this.getMembershipTypeText(member.membershipType),
-        "الدعم المالي":
-          member.financialSupport === "paid" ? "مدفوع" : "غير مدفوع",
         "تاريخ التسجيل": new Date(member.registrationDate).toLocaleDateString(
           "ar-EG",
         ),
@@ -43,20 +36,19 @@ export class ExcelService {
 
       const worksheet = XLSX.utils.json_to_sheet(exportData);
       worksheet["!cols"] = [
-        { wch: 20 },
-        { wch: 15 },
-        { wch: 8 },
-        { wch: 15 },
-        { wch: 15 },
-        { wch: 25 },
-        { wch: 12 },
-        { wch: 6 },
-        { wch: 30 },
-        { wch: 20 },
-        { wch: 12 },
-        { wch: 25 },
-        { wch: 12 },
-        { wch: 15 },
+        { wch: 20 }, // الاسم بالكامل
+        { wch: 15 }, // الرقم القومي
+        { wch: 8 },  // الجنس
+        { wch: 10 }, // الديانة
+        { wch: 6 },  // العمر
+        { wch: 15 }, // رقم الهاتف
+        { wch: 25 }, // البريد الإلكتروني
+        { wch: 20 }, // الوظيفة
+        { wch: 30 }, // العنوان
+        { wch: 15 }, // الوحدة الحزبية
+        { wch: 12 }, // رقم العضوية
+        { wch: 12 }, // نوع العضوية
+        { wch: 15 }, // تاريخ التسجيل
       ];
 
       XLSX.utils.book_append_sheet(workbook, worksheet, "أعضاء الحزب");
@@ -118,16 +110,15 @@ export class ExcelService {
         "الاسم بالكامل": "مثال: أحمد محمد علي",
         "الرقم القومي": "12345678901234",
         الجنس: "ذكر",
-        "رقم الهاتف": "01234567890",
-        "الوحدة الحزبية": "وراق الحضر",
-        "البريد الإلكتروني": "example@email.com",
-        "رقم العضوية": "M001",
+        الديانة: "مسلم",
         العمر: "25",
-        العنوان: "مثال: القاهرة، مصر",
+        "رقم الهاتف": "01234567890",
+        "البريد الإلكتروني": "example@email.com",
         الوظيفة: "مثال: مهندس",
-        "حالة العضو": "نشط",
+        العنوان: "مثال: القاهرة، مصر",
+        "الوحدة الحزبية": "وراق الحضر",
+        "رقم العضوية": "M001",
         "نوع العضوية": "عضو عادى",
-        "الدعم المالي": "مدفوع",
         "تاريخ التسجيل": new Date().toLocaleDateString("ar-EG"),
       },
     ];
@@ -135,20 +126,19 @@ export class ExcelService {
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.json_to_sheet(templateData);
     worksheet["!cols"] = [
-      { wch: 20 },
-      { wch: 15 },
-      { wch: 8 },
-      { wch: 15 },
-      { wch: 15 },
-      { wch: 25 },
-      { wch: 12 },
-      { wch: 6 },
-      { wch: 30 },
-      { wch: 20 },
-      { wch: 12 },
-      { wch: 25 },
-      { wch: 12 },
-      { wch: 15 },
+      { wch: 20 }, // الاسم بالكامل
+      { wch: 15 }, // الرقم القومي
+      { wch: 8 },  // الجنس
+      { wch: 10 }, // الديانة
+      { wch: 6 },  // العمر
+      { wch: 15 }, // رقم الهاتف
+      { wch: 25 }, // البريد الإلكتروني
+      { wch: 20 }, // الوظيفة
+      { wch: 30 }, // العنوان
+      { wch: 15 }, // الوحدة الحزبية
+      { wch: 12 }, // رقم العضوية
+      { wch: 12 }, // نوع العضوية
+      { wch: 15 }, // تاريخ التسجيل
     ];
 
     XLSX.utils.book_append_sheet(workbook, worksheet, "قالب_أعضاء_الحزب");
@@ -164,7 +154,9 @@ export class ExcelService {
       nationalId: ["الرقم القومي", "National ID"],
       email: ["البريد الإلكتروني", "Email"],
       phoneNumber: ["رقم الهاتف", "Phone"],
+      landlineNumber: ["رقم الهاتف الأرضي", "Landline"],
       partyUnit: ["الوحدة الحزبية", "Party Unit"],
+      religion: ["الديانة", "Religion"],
     };
 
     const findFieldValue = (possibleNames: string[]): string => {
@@ -178,7 +170,9 @@ export class ExcelService {
     const nationalId = findFieldValue(fieldMappings.nationalId);
     const email = findFieldValue(fieldMappings.email);
     const phoneNumber = findFieldValue(fieldMappings.phoneNumber);
+    const landlineNumber = findFieldValue(fieldMappings.landlineNumber);
     const partyUnit = findFieldValue(fieldMappings.partyUnit);
+    const religion = findFieldValue(fieldMappings.religion);
 
     if (!fullName || !nationalId || !email || !phoneNumber) {
       throw new Error("الحقول المطلوبة مفقودة");
@@ -194,21 +188,27 @@ export class ExcelService {
       throw new Error("رقم الهاتف غير صحيح");
     }
 
+    // تحقق من الديانة
+    const cleanReligion = religion.toLowerCase();
+    if (!["مسلم", "مسيحي", "muslim", "christian"].includes(cleanReligion)) {
+      throw new Error("الديانة يجب أن تكون مسلم أو مسيحي");
+    }
+
     return {
       id: `imported_${Date.now()}_${index}`,
       fullName,
       nationalId: cleanNationalId,
       gender: "male",
       phoneNumber: cleanPhoneNumber,
+      landlineNumber: landlineNumber || undefined,
       partyUnit: partyUnit || undefined,
       email,
       membershipNumber: `M${Date.now()}${index}`,
       age: 18,
       address: "",
       job: "",
-      status: "active",
       membershipType: "regular",
-      financialSupport: "unpaid",
+      religion: cleanReligion.includes("مسلم") || cleanReligion === "muslim" ? "muslim" : "christian",
       registrationDate: new Date().toISOString(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -219,6 +219,7 @@ export class ExcelService {
     const typeMap: Record<string, string> = {
       regular: "عضو عادى",
       committee: "عضو لجنة",
+      divisionSecretary: "أمين شعبة",
       assistantSecretary: "امين مساعد",
       organizationSecretary: "امين تنظيم",
       secretary: "امين امانة",

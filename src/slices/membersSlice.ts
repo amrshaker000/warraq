@@ -59,8 +59,6 @@ export const filterMembers = createAsyncThunk(
   "members/filterMembers",
   async (filters: {
     gender?: string;
-    status?: string;
-    financialSupport?: string;
     membershipType?: string;
     ageMin?: number;
     ageMax?: number;
@@ -96,8 +94,6 @@ interface MembersState {
   searchQuery: string;
   filters: {
     gender: string;
-    status: string;
-    financialSupport: string;
     membershipType: string;
     ageMin?: number;
     ageMax?: number;
@@ -113,8 +109,6 @@ const initialState: MembersState = {
   searchQuery: "",
   filters: {
     gender: "all",
-    status: "all",
-    financialSupport: "all",
     membershipType: "all",
   },
 };
@@ -135,8 +129,6 @@ const membersSlice = createSlice({
     clearFilters: (state) => {
       state.filters = {
         gender: "all",
-        status: "all",
-        financialSupport: "all",
         membershipType: "all",
       };
       state.searchQuery = "";

@@ -65,7 +65,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-background-primary py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
@@ -74,7 +74,7 @@ const Login: React.FC = () => {
             alt="party-logo"
             className="mx-auto mb-6 drop-shadow-lg h-40 w-40 sm:h-56 sm:w-56 lg:h-72 lg:w-72 object-contain"
           />
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-dark-text-primary text-center">
             {t("app.title")}
           </h2>
         </div>
@@ -87,8 +87,8 @@ const Login: React.FC = () => {
               type="text"
               placeholder={t("common.username")}
               leftIcon={
-                <div className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/30">
-                  <User className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                <div className="p-1.5 rounded-lg bg-red-50 dark:bg-red-900/30">
+                  <User className="h-5 w-5 text-red-600 dark:text-red-400" />
                 </div>
               }
               fullWidth
@@ -154,7 +154,7 @@ const Login: React.FC = () => {
 
         {/* Footer */}
         <div className="text-center">
-          <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
+          <p className="text-sm text-gray-600 dark:text-dark-text-muted text-center">
             {t("footer.copyright")} {t("footer.partyName")}
           </p>
         </div>

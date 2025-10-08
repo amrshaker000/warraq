@@ -25,7 +25,7 @@ import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
 import AnimatedSection from "../components/animations/AnimatedSection";
 import AnimatedGroup from "../components/animations/AnimatedGroup";
-import type { MemberFormData } from "../types/member";
+import type { MemberFormData, MembershipType } from "../types/member";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "../store";
 import { addMember, updateMember } from "../slices/membersSlice";
@@ -66,9 +66,7 @@ const DataEntryForm: React.FC = () => {
       age: 18,
       address: "",
       job: "",
-      status: "active",
       membershipType: "regular",
-      financialSupport: "unpaid",
     },
   });
 
@@ -91,6 +89,7 @@ const DataEntryForm: React.FC = () => {
         setValue("fullName", member.fullName);
         setValue("nationalId", member.nationalId);
         setValue("gender", member.gender);
+        setValue("religion", member.religion);
         setValue("phoneNumber", member.phoneNumber);
         setValue("landlineNumber", member.landlineNumber || "");
         setValue("partyUnit", member.partyUnit || "وراق الحضر");
@@ -99,9 +98,7 @@ const DataEntryForm: React.FC = () => {
         setValue("age", member.age);
         setValue("address", member.address);
         setValue("job", member.job);
-        setValue("status", member.status);
         setValue("membershipType", member.membershipType);
-        setValue("financialSupport", member.financialSupport);
         if (member.photo) {
           setPhotoPreview(member.photo);
         }
@@ -129,9 +126,8 @@ const DataEntryForm: React.FC = () => {
         age: data.age,
         address: data.address,
         job: data.job,
-        status: data.status,
         membershipType: data.membershipType,
-        financialSupport: data.financialSupport,
+        religion: data.religion,
         registrationDate: new Date().toISOString(),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -336,22 +332,34 @@ const DataEntryForm: React.FC = () => {
   };
 
   // Map Excel data to form structure
-  const mapExcelDataToForm = (dataRow: string[]) => {
+  const mapExcelDataToForm = (dataRow: string[]): {
+    fullName: string;
+    nationalId: string;
+    gender: "male" | "female";
+    phoneNumber: string;
+    partyUnit: string;
+    email: string;
+    membershipNumber: string;
+    age: number;
+    address: string;
+    job: string;
+    membershipType: MembershipType;
+    religion: "muslim" | "christian";
+  } | null => {
     try {
       return {
         fullName: (dataRow[0] as string)?.toString().trim() || "",
         nationalId: (dataRow[1] as string)?.toString().trim() || "",
         gender: parseGenderFromExcel(dataRow[2]),
-        phoneNumber: (dataRow[3] as string)?.toString().trim() || "",
-        partyUnit: parsePartyUnitFromExcel(dataRow[4]),
-        email: (dataRow[5] as string)?.toString().trim() || "",
-        membershipNumber: (dataRow[6] as string)?.toString().trim() || "",
-        age: parseAgeFromExcel(dataRow[7]),
+        religion: parseReligionFromExcel(dataRow[3]),
+        age: parseAgeFromExcel(dataRow[4]),
+        phoneNumber: (dataRow[5] as string)?.toString().trim() || "",
+        email: (dataRow[6] as string)?.toString().trim() || "",
+        job: (dataRow[7] as string)?.toString().trim() || "",
         address: (dataRow[8] as string)?.toString().trim() || "",
-        job: (dataRow[9] as string)?.toString().trim() || "",
-        status: parseStatusFromExcel(dataRow[10]),
+        partyUnit: parsePartyUnitFromExcel(dataRow[9]),
+        membershipNumber: (dataRow[10] as string)?.toString().trim() || "",
         membershipType: parseMembershipTypeFromExcel(dataRow[11]),
-        financialSupport: parseFinancialSupportFromExcel(dataRow[12]),
       };
     } catch (error) {
       console.error("Error mapping Excel data:", error);
@@ -371,9 +379,20 @@ const DataEntryForm: React.FC = () => {
     return "male"; // default
   };
 
+  const parseReligionFromExcel = (value: string): "muslim" | "christian" => {
+    const religionStr = value?.toString().trim().toLowerCase();
+    if (religionStr === "مسلم" || religionStr === "muslim" || religionStr === "مسلم") {
+      return "muslim";
+    }
+    if (religionStr === "مسيحي" || religionStr === "christian" || religionStr === "مسيحى") {
+      return "christian";
+    }
+    return "muslim"; // default
+  };
+
   const parsePartyUnitFromExcel = (value: string): string => {
     const unitStr = value?.toString().trim();
-    const validUnits = ["وراق الحضر", "وراق العرب", "جزيرة محمد", "طناش"];
+    const validUnits = ["وراق الحضر", "وراق العرب", "جزيرة محمد", "طناش", "عزبة المفتى", "عزبة الخلايفة"];
 
     if (validUnits.includes(unitStr)) {
       return unitStr;
@@ -395,21 +414,12 @@ const DataEntryForm: React.FC = () => {
     return isNaN(age) ? 18 : Math.max(18, Math.min(80, age));
   };
 
-  const parseStatusFromExcel = (
-    value: string,
-  ): "active" | "inactive" | "suspended" => {
-    const statusStr = value?.toString().trim().toLowerCase();
-    if (statusStr === "نشط" || statusStr === "active") return "active";
-    if (statusStr === "غير نشط" || statusStr === "inactive") return "inactive";
-    if (statusStr === "معلق" || statusStr === "suspended") return "suspended";
-    return "active"; // default
-  };
-
-  const parseMembershipTypeFromExcel = (value: string): string => {
+  const parseMembershipTypeFromExcel = (value: string): MembershipType => {
     const typeStr = value?.toString().trim();
-    const typeMap: Record<string, string> = {
+    const typeMap: Record<string, MembershipType> = {
       "عضو عادى": "regular",
       "عضو لجنة": "committee",
+      "امين القسم": "divisionSecretary",
       "امين مساعد": "assistantSecretary",
       "امين تنظيم": "organizationSecretary",
       "امين امانة": "secretary",
@@ -419,24 +429,19 @@ const DataEntryForm: React.FC = () => {
       "امين تنظيم وحدة قاعدية": "baseUnitOrganizationSecretary",
       "امين أمانة وحدة قاعدية": "baseUnitSecretaryGeneral",
       // English variants
-      regular: "regular",
-      committee: "committee",
-      assistantSecretary: "assistantSecretary",
-      organizationSecretary: "organizationSecretary",
-      secretary: "secretary",
-      assistantSecretaryGeneral: "assistantSecretaryGeneral",
-      baseUnitSecretary: "baseUnitSecretary",
-      baseUnitAssistantSecretary: "baseUnitAssistantSecretary",
-      baseUnitOrganizationSecretary: "baseUnitOrganizationSecretary",
-      baseUnitSecretaryGeneral: "baseUnitSecretaryGeneral",
+      "regular": "regular",
+      "committee": "committee",
+      "divisionSecretary": "divisionSecretary",
+      "assistantSecretary": "assistantSecretary",
+      "organizationSecretary": "organizationSecretary",
+      "secretary": "secretary",
+      "assistantSecretaryGeneral": "assistantSecretaryGeneral",
+      "baseUnitSecretary": "baseUnitSecretary",
+      "baseUnitAssistantSecretary": "baseUnitAssistantSecretary",
+      "baseUnitOrganizationSecretary": "baseUnitOrganizationSecretary",
+      "baseUnitSecretaryGeneral": "baseUnitSecretaryGeneral",
     };
     return typeMap[typeStr] || "regular";
-  };
-
-  const parseFinancialSupportFromExcel = (value: string): "paid" | "unpaid" => {
-    const supportStr = value?.toString().trim().toLowerCase();
-    if (supportStr === "مدفوع" || supportStr === "paid") return "paid";
-    return "unpaid"; // default
   };
 
   // Populate form with Excel data
@@ -451,9 +456,8 @@ const DataEntryForm: React.FC = () => {
     age: number;
     address: string;
     job: string;
-    status: "active" | "inactive" | "suspended";
-    membershipType: string;
-    financialSupport: "paid" | "unpaid";
+    membershipType: MembershipType;
+    religion: "muslim" | "christian";
   }) => {
     setValue("fullName", data.fullName);
     setValue("nationalId", data.nationalId);
@@ -465,10 +469,8 @@ const DataEntryForm: React.FC = () => {
     setValue("age", data.age);
     setValue("address", data.address);
     setValue("job", data.job);
-    setValue("status", data.status);
-    // @ts-expect-error - membershipType comes from Excel import and may not match exact type
     setValue("membershipType", data.membershipType);
-    setValue("financialSupport", data.financialSupport);
+    setValue("religion", data.religion);
   };
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -485,7 +487,20 @@ const DataEntryForm: React.FC = () => {
   };
 
   const clearForm = () => {
-    reset();
+    reset({
+      fullName: "",
+      nationalId: "",
+      gender: "male",
+      religion: "muslim",
+      phoneNumber: "",
+      email: "",
+      membershipNumber: "",
+      age: 18,
+      address: "",
+      job: "",
+      membershipType: "regular",
+      partyUnit: "وراق الحضر",
+    });
     setPhotoPreview("");
     setIsEditing(false);
   };
@@ -495,60 +510,36 @@ const DataEntryForm: React.FC = () => {
     { value: "female", label: t("common.female") },
   ];
 
+  const religionOptions = [
+    { value: "muslim", label: t("common.muslim") },
+    { value: "christian", label: t("common.christian") },
+  ];
+
   const partyUnitOptions = [
     { value: "وراق الحضر", label: "وراق الحضر" },
     { value: "وراق العرب", label: "وراق العرب" },
     { value: "جزيرة محمد", label: "جزيرة محمد" },
     { value: "طناش", label: "طناش" },
-  ];
-
-  const statusOptions = [
-    { value: "active", label: t("common.active") },
-    { value: "inactive", label: t("common.inactive") },
-    { value: "suspended", label: t("common.suspended") },
+    { value: "عزبة المفتى", label: "عزبة المفتى" },
+    { value: "عزبة الخلايفة", label: "عزبة الخلايفة" },
   ];
 
   const membershipTypeOptions = [
     { value: "regular", label: t("members.memberTypes.regular") },
     { value: "committee", label: t("members.memberTypes.committee") },
-    {
-      value: "assistantSecretary",
-      label: t("members.memberTypes.assistantSecretary"),
-    },
-    {
-      value: "organizationSecretary",
-      label: t("members.memberTypes.organizationSecretary"),
-    },
+    { value: "divisionSecretary", label: t("members.memberTypes.divisionSecretary") },
+    { value: "assistantSecretary", label: t("members.memberTypes.assistantSecretary") },
+    { value: "organizationSecretary", label: t("members.memberTypes.organizationSecretary") },
     { value: "secretary", label: t("members.memberTypes.secretary") },
-    {
-      value: "assistantSecretaryGeneral",
-      label: t("members.memberTypes.assistantSecretaryGeneral"),
-    },
-    {
-      value: "baseUnitSecretary",
-      label: t("members.memberTypes.baseUnitSecretary"),
-    },
-    {
-      value: "baseUnitAssistantSecretary",
-      label: t("members.memberTypes.baseUnitAssistantSecretary"),
-    },
-    {
-      value: "baseUnitOrganizationSecretary",
-      label: t("members.memberTypes.baseUnitOrganizationSecretary"),
-    },
-    {
-      value: "baseUnitSecretaryGeneral",
-      label: t("members.memberTypes.baseUnitSecretaryGeneral"),
-    },
-  ];
-
-  const financialSupportOptions = [
-    { value: "paid", label: t("common.paid") },
-    { value: "unpaid", label: t("common.unpaid") },
+    { value: "assistantSecretaryGeneral", label: t("members.memberTypes.assistantSecretaryGeneral") },
+    { value: "baseUnitSecretary", label: t("members.memberTypes.baseUnitSecretary") },
+    { value: "baseUnitAssistantSecretary", label: t("members.memberTypes.baseUnitAssistantSecretary") },
+    { value: "baseUnitOrganizationSecretary", label: t("members.memberTypes.baseUnitOrganizationSecretary") },
+    { value: "baseUnitSecretaryGeneral", label: t("members.memberTypes.baseUnitSecretaryGeneral") },
   ];
 
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen flex bg-gray-50 dark:bg-dark-background-primary">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex-1 flex flex-col">
         <TopNav onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
@@ -589,14 +580,14 @@ const DataEntryForm: React.FC = () => {
             delay={0.2}
           >
             <div>
-              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
+              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-dark-text-primary">
                 {isViewOnly
                   ? t("members.viewMember")
                   : isEditing
                     ? t("members.editMember")
                     : t("members.addMember")}
               </h1>
-              <p className="text-gray-600 dark:text-gray-400 mt-2">
+              <p className="text-gray-600 dark:text-dark-text-secondary mt-2">
                 {isViewOnly
                   ? t("members.viewMemberDescription")
                   : t("app.subtitle")}
@@ -642,14 +633,14 @@ const DataEntryForm: React.FC = () => {
             )}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {isViewOnly && (
-                <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
-                  <div className="flex items-center gap-2 text-blue-800 dark:text-blue-200">
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+                  <div className="flex items-center gap-2 text-red-800 dark:text-red-200">
                     <Eye className="h-5 w-5" />
                     <span className="font-medium">
                       {t("members.viewOnlyMode")}
                     </span>
                   </div>
-                  <p className="text-sm text-blue-600 dark:text-blue-300 mt-1">
+                  <p className="text-sm text-red-600 dark:text-red-300 mt-1">
                     {t("members.viewOnlyDescription")}
                   </p>
                 </div>
@@ -709,6 +700,43 @@ const DataEntryForm: React.FC = () => {
                   error={errors.gender?.message}
                 />
 
+                <Select
+                  label={t("members.religion")}
+                  options={religionOptions}
+                  placeholder={t("common.select")}
+                  fullWidth
+                  required
+                  disabled={isViewOnly}
+                  {...register("religion", {
+                    required: t("forms.validation.required"),
+                  })}
+                  error={errors.religion?.message}
+                />
+
+                <Input
+                  label={t("members.age")}
+                  type="number"
+                  placeholder={t("members.age")}
+                  leftIcon={<Calendar className="h-5 w-5" />}
+                  fullWidth
+                  required
+                  disabled={isViewOnly}
+                  min={18}
+                  max={80}
+                  {...register("age", {
+                    required: t("forms.validation.required"),
+                    min: {
+                      value: 18,
+                      message: t("forms.validation.age"),
+                    },
+                    max: {
+                      value: 80,
+                      message: t("forms.validation.age"),
+                    },
+                  })}
+                  error={errors.age?.message}
+                />
+
                 <Input
                   label={t("members.phoneNumber")}
                   type="tel"
@@ -746,41 +774,17 @@ const DataEntryForm: React.FC = () => {
                 />
 
                 <Input
-                  label={t("members.membershipNumber")}
+                  label={t("members.job")}
                   type="text"
-                  placeholder={t("members.membershipNumber")}
-                  leftIcon={<User className="h-5 w-5" />}
+                  placeholder={t("members.job")}
+                  leftIcon={<Building className="h-5 w-5" />}
                   fullWidth
                   required
                   disabled={isViewOnly}
-                  {...register("membershipNumber", {
+                  {...register("job", {
                     required: t("forms.validation.required"),
                   })}
-                  error={errors.membershipNumber?.message}
-                />
-
-                <Input
-                  label={t("members.age")}
-                  type="number"
-                  placeholder={t("members.age")}
-                  leftIcon={<Calendar className="h-5 w-5" />}
-                  fullWidth
-                  required
-                  disabled={isViewOnly}
-                  min={18}
-                  max={80}
-                  {...register("age", {
-                    required: t("forms.validation.required"),
-                    min: {
-                      value: 18,
-                      message: t("forms.validation.age"),
-                    },
-                    max: {
-                      value: 80,
-                      message: t("forms.validation.age"),
-                    },
-                  })}
-                  error={errors.age?.message}
+                  error={errors.job?.message}
                 />
 
                 <Input
@@ -811,30 +815,17 @@ const DataEntryForm: React.FC = () => {
                 />
 
                 <Input
-                  label={t("members.job")}
+                  label={t("members.membershipNumber")}
                   type="text"
-                  placeholder={t("members.job")}
-                  leftIcon={<Building className="h-5 w-5" />}
+                  placeholder={t("members.membershipNumber")}
+                  leftIcon={<User className="h-5 w-5" />}
                   fullWidth
                   required
                   disabled={isViewOnly}
-                  {...register("job", {
+                  {...register("membershipNumber", {
                     required: t("forms.validation.required"),
                   })}
-                  error={errors.job?.message}
-                />
-
-                <Select
-                  label={t("members.memberStatus")}
-                  options={statusOptions}
-                  placeholder={t("common.select")}
-                  fullWidth
-                  required
-                  disabled={isViewOnly}
-                  {...register("status", {
-                    required: t("forms.validation.required"),
-                  })}
-                  error={errors.status?.message}
+                  error={errors.membershipNumber?.message}
                 />
 
                 <Select
@@ -848,19 +839,6 @@ const DataEntryForm: React.FC = () => {
                     required: t("forms.validation.required"),
                   })}
                   error={errors.membershipType?.message}
-                />
-
-                <Select
-                  label={t("members.financialSupportStatus")}
-                  options={financialSupportOptions}
-                  placeholder={t("common.select")}
-                  fullWidth
-                  required
-                  disabled={isViewOnly}
-                  {...register("financialSupport", {
-                    required: t("forms.validation.required"),
-                  })}
-                  error={errors.financialSupport?.message}
                 />
               </AnimatedGroup>
 
@@ -908,7 +886,7 @@ const DataEntryForm: React.FC = () => {
               {/* Form Actions */}
               {!isViewOnly && (
                 <AnimatedSection
-                  className="flex justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700"
+                  className="flex flex-col sm:flex-row sm:justify-end sm:space-x-4 space-y-3 sm:space-y-0 pt-6 border-t border-gray-200 dark:border-gray-700"
                   delay={0.5}
                 >
                   <Button

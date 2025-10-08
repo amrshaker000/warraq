@@ -13,17 +13,19 @@ const AgeDistributionChart: React.FC<AgeDistributionChartProps> = ({
   // Calculate age distribution
   const ageGroups = {
     "18-25": 0,
-    "26-35": 0,
-    "36-65": 0,
-    "65+": 0,
+    "25-35": 0,
+    "35-45": 0,
+    "45-60": 0,
+    "60-80": 0,
   };
 
   members.forEach((member) => {
     const age = member.age;
     if (age >= 18 && age <= 25) ageGroups["18-25"]++;
-    else if (age >= 26 && age <= 35) ageGroups["26-35"]++;
-    else if (age >= 36 && age <= 65) ageGroups["36-65"]++;
-    else if (age > 65) ageGroups["65+"]++;
+    else if (age >= 26 && age <= 35) ageGroups["25-35"]++;
+    else if (age >= 36 && age <= 45) ageGroups["35-45"]++;
+    else if (age >= 46 && age <= 60) ageGroups["45-60"]++;
+    else if (age >= 61 && age <= 80) ageGroups["60-80"]++;
   });
 
   const maxCount = Math.max(...Object.values(ageGroups));

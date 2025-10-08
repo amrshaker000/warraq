@@ -40,15 +40,13 @@ import goldLogo from "/Gold logo.png";
 const MembersTable: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const { list: members } = useSelector((state: RootState) => state.members);
 
   // State management
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { addToast } = useToastContext();
   const { theme } = useTheme();
-
-  // Enhanced member management state
   const [selectedMembers, setSelectedMembers] = useState<Set<string>>(
     new Set(),
   );
@@ -341,10 +339,8 @@ const MembersTable: React.FC = () => {
         type: "warning",
       });
     }
-  };
-
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-dark-background-primary">
+    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-900">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex-1 flex flex-col transition-all duration-300 ease-in-out">
         <TopNav onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
@@ -361,10 +357,10 @@ const MembersTable: React.FC = () => {
                       className="h-32 w-32 lg:h-40 lg:w-40 object-contain mr-4"
                     />
                     <div className="flex-1">
-                      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-dark-text-primary font-arabic">
+                      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white font-arabic">
                         {t("members.title")}
                       </h1>
-                      <p className="text-sm sm:text-base text-gray-600 dark:text-dark-text-secondary mt-1 sm:mt-2 font-arabic">
+                      <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1 sm:mt-2 font-arabic">
                         {t("members.searchAndFilter")}
                       </p>
                     </div>
@@ -393,13 +389,13 @@ const MembersTable: React.FC = () => {
                     variant="outline"
                     onClick={handleExportExcel}
                     isLoading={isExporting}
-                    leftIcon={<FileSpreadsheet className="h-5 w-5 text-green-600 dark:text-green-400" />}
-                    className="w-full sm:w-auto border-green-600 text-green-600 hover:bg-green-50 focus:ring-green-500 dark:border-green-400 dark:text-green-400 dark:hover:bg-green-900/20"
+                    leftIcon={<FileSpreadsheet className="h-5 w-5" />}
+                    className="w-full sm:w-auto"
                   >
-                    <span className="hidden sm:inline text-green-600 dark:text-green-400">
+                    <span className="hidden sm:inline">
                       {t("export.excel")}{" "}
                     </span>
-                    <span className="sm:hidden text-green-600 dark:text-green-400">{t("export.excel")}</span>
+                    <span className="sm:hidden">{t("export.excel")}</span>
                   </Button>
                   <AnimatedButton
                     variant="primary"
@@ -458,11 +454,11 @@ const MembersTable: React.FC = () => {
 
             {/* Bulk Actions Bar */}
             {showBulkActions && (
-              <Card className="p-4 mb-6 bg-red-50 dark:bg-dark-accent-red-900/20 border-red-200 dark:border-dark-accent-red-800">
+              <Card className="p-4 mb-6 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                   <div className="flex items-center gap-2">
-                    <CheckSquare className="h-5 w-5 text-red-600 dark:text-red-400" />
-                    <span className="font-medium text-red-700 dark:text-red-300">
+                    <CheckSquare className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                    <span className="font-medium text-blue-700 dark:text-blue-300">
                       {t("common.selectedMembers", {
                         count: selectedMembers.size,
                       })}
@@ -474,7 +470,6 @@ const MembersTable: React.FC = () => {
                       size="sm"
                       onClick={handleBulkExport}
                       leftIcon={<Upload className="h-4 w-4" />}
-                      className="border-green-600 text-green-600 hover:bg-green-50 focus:ring-green-500 dark:border-green-600 dark:text-green-400"
                     >
                       {t("export.excel")}
                     </Button>
@@ -525,7 +520,7 @@ const MembersTable: React.FC = () => {
                         </span>
                       </div>
                       <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
-                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                         <span>
                           {t("members.emptyState.features.manageData")}
                         </span>
@@ -563,7 +558,7 @@ const MembersTable: React.FC = () => {
                     {paginatedMembers.map((member: Member) => (
                       <div
                         key={member.id}
-                        className="bg-white dark:bg-dark-background-primary rounded-lg border border-gray-200 dark:border-dark-border-primary p-4 shadow-sm hover:shadow-md transition-shadow"
+                        className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 shadow-sm hover:shadow-md transition-shadow"
                       >
                         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 space-y-2 sm:space-y-0">
                           <div className="flex items-start gap-3 flex-1 min-w-0">
@@ -579,10 +574,10 @@ const MembersTable: React.FC = () => {
                               className="mt-1 h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                             />
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-lg font-semibold text-gray-900 dark:text-dark-text-primary truncate">
+                              <h3 className="text-lg font-semibold text-gray-900 dark:text-white truncate">
                                 {member.fullName}
                               </h3>
-                              <p className="text-sm text-gray-500 dark:text-dark-text-secondary">
+                              <p className="text-sm text-gray-500 dark:text-gray-400">
                                 {t("members.membershipNumber")}:{" "}
                                 <span className="ltr">
                                   {member.membershipNumber}
@@ -621,10 +616,10 @@ const MembersTable: React.FC = () => {
                         <div className="space-y-2 sm:space-y-3">
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-sm">
                             <div className="min-w-0">
-                              <span className="text-gray-500 dark:text-dark-text-muted block text-xs font-medium">
+                              <span className="text-gray-500 dark:text-gray-400 block text-xs font-medium">
                                 {t("members.nationalId")}:
                               </span>
-                              <p className="font-medium text-gray-900 dark:text-dark-text-primary truncate ltr">
+                              <p className="font-medium text-gray-900 dark:text-white truncate ltr">
                                 {member.nationalId}
                               </p>
                             </div>
@@ -646,42 +641,10 @@ const MembersTable: React.FC = () => {
                             </div>
                             <div className="min-w-0">
                               <span className="text-gray-500 dark:text-gray-400 block text-xs font-medium">
-                                {t("members.age")}:
-                              </span>
-                              <p className="font-medium text-gray-900 dark:text-white ltr">
-                                {member.age}
-                              </p>
-                            </div>
-                            <div className="min-w-0">
-                              <span className="text-gray-500 dark:text-gray-400 block text-xs font-medium">
                                 {t("members.phoneNumber")}:
                               </span>
                               <p className="font-medium text-gray-900 dark:text-white truncate ltr">
                                 {member.phoneNumber}
-                              </p>
-                            </div>
-                            <div className="min-w-0">
-                              <span className="text-gray-500 dark:text-gray-400 block text-xs font-medium">
-                                {t("common.email")}:
-                              </span>
-                              <p className="font-medium text-gray-900 dark:text-white truncate">
-                                {member.email}
-                              </p>
-                            </div>
-                            <div className="min-w-0">
-                              <span className="text-gray-500 dark:text-gray-400 block text-xs font-medium">
-                                {t("members.job")}:
-                              </span>
-                              <p className="font-medium text-gray-900 dark:text-white truncate">
-                                {member.job}
-                              </p>
-                            </div>
-                            <div className="min-w-0">
-                              <span className="text-gray-500 dark:text-gray-400 block text-xs font-medium">
-                                {t("members.address")}:
-                              </span>
-                              <p className="font-medium text-gray-900 dark:text-white truncate">
-                                {member.address}
                               </p>
                             </div>
                             <div className="min-w-0">
@@ -694,10 +657,10 @@ const MembersTable: React.FC = () => {
                             </div>
                             <div className="min-w-0">
                               <span className="text-gray-500 dark:text-gray-400 block text-xs font-medium">
-                                {t("members.membershipNumber")}:
+                                {t("members.age")}:
                               </span>
-                              <p className="font-medium text-gray-900 dark:text-white truncate ltr">
-                                {member.membershipNumber}
+                              <p className="font-medium text-gray-900 dark:text-white ltr">
+                                {member.age}
                               </p>
                             </div>
                           </div>
@@ -706,7 +669,7 @@ const MembersTable: React.FC = () => {
                               <span className="text-gray-500 dark:text-gray-400 text-xs font-medium">
                                 {t("members.membershipType")}:
                               </span>
-                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
                                 {t(
                                   `members.memberTypes.${member.membershipType}`,
                                 )}
@@ -719,7 +682,7 @@ const MembersTable: React.FC = () => {
                   </AnimatedGroup>
 
                   {/* Enhanced Pagination */}
-                  <div className="bg-white dark:bg-dark-background-primary px-4 py-3 flex flex-col sm:flex-row items-center justify-between border-t border-gray-200 dark:border-dark-border-primary sm:px-6 space-y-2 sm:space-y-0">
+                  <div className="bg-white dark:bg-gray-900 px-4 py-3 flex flex-col sm:flex-row items-center justify-between border-t border-gray-200 dark:border-gray-700 sm:px-6 space-y-2 sm:space-y-0">
                     <div className="flex-1 flex justify-between sm:hidden w-full">
                       <Button
                         variant="ghost"

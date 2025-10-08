@@ -315,13 +315,10 @@ export class CsvService {
       if (filters.gender && filters.gender !== 'all' && member.gender !== filters.gender) {
         return false;
       }
-      if (filters.status && filters.status !== 'all' && member.status !== filters.status) {
-        return false;
-      }
-      if (filters.financialSupport && filters.financialSupport !== 'all' && member.financialSupport !== filters.financialSupport) {
-        return false;
-      }
       if (filters.membershipType && filters.membershipType !== 'all' && member.membershipType !== filters.membershipType) {
+        return false;
+      }
+      if (filters.partyUnit && filters.partyUnit !== 'all' && member.partyUnit !== filters.partyUnit) {
         return false;
       }
       if (filters.ageMin && member.age < filters.ageMin) {
@@ -342,11 +339,6 @@ export class CsvService {
 
     return {
       totalMembers: members.length,
-      activeMembers: members.filter(m => m.status === 'active').length,
-      inactiveMembers: members.filter(m => m.status === 'inactive').length,
-      suspendedMembers: members.filter(m => m.status === 'suspended').length,
-      paidMembers: members.filter(m => m.financialSupport === 'paid').length,
-      unpaidMembers: members.filter(m => m.financialSupport === 'unpaid').length,
       maleMembers: members.filter(m => m.gender === 'male').length,
       femaleMembers: members.filter(m => m.gender === 'female').length,
       recentRegistrations: members.filter(m => new Date(m.registrationDate) >= thirtyDaysAgo).length,

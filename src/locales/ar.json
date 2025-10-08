@@ -12,19 +12,18 @@
     "close": "إغلاق",
     "confirm": "تأكيد",
     "loading": "جاري التحميل...",
+    "warning": "تحذير",
     "error": "خطأ",
     "success": "نجح",
-    "warning": "تحذير",
     "info": "معلومات",
     "yes": "نعم",
     "no": "لا",
-    "active": "نشط",
+    "backToMembers": "العودة إلى الأعضاء",
+    "goBack": "العودة للخلف",
     "inactive": "غير نشط",
     "suspended": "معلق",
-    "select": "اختر...",
     "preview": "معاينة",
-    "view": "عرض",
-    "actions": "الإجراءات",
+    "print": "طباعة",
     "status": "الحالة",
     "date": "التاريخ",
     "time": "الوقت",
@@ -37,8 +36,13 @@
     "remove": "إزالة",
     "male": "ذكر",
     "female": "أنثى",
-    "selectedMembers": "تم تحديد {{count}} عضو",
-    "exportSelected": "تصدير",
+    "muslim": "مسلم",
+    "christian": "مسيحي",
+    "muslimMembers": "المسلمين",
+    "christianMembers": "المسيحيين",
+    "newAgeGroups": "الفئات العمرية ",
+    "viewDetails": "عرض التفاصيل",
+    "exportSelected": "تصدير المحدد",
     "deleteSelected": "حذف المحدد",
     "memberName": "اسم العضو",
     "memberId": "رقم العضوية",
@@ -46,18 +50,16 @@
     "phoneNumber": "رقم الهاتف",
     "memberStatus": "حالة العضوية",
     "membershipType": "نوع العضوية",
-    "activeMember": "نشط",
-    "paidMember": "مدفوع",
     "previous": "السابق",
     "next": "التالي",
-    "paid": "مدفوع",
-    "unpaid": "غير مدفوع",
     "all": "الكل",
     "member": "عضو",
     "undo": "تراجع",
     "redo": "إعادة",
+    "notSpecified": "غير محدد",
+    "years": "سنة",
     "back": "رجوع",
-    "goBack": "العودة للخلف"
+    "selectedMembers": "{{count}} أعضاء محددين"
   },
   "app": {
     "title": "أمانة محافظة الجيزة - أمانة حي الوراق",
@@ -117,12 +119,7 @@
     "admin": "مدير"
   },
   "analytics": {
-    "subtitle": "رؤى شاملة لبيانات الأعضاء والاتجاهات",
-    "statusLabels": {
-      "active": "نشط",
-      "inactive": "غير نشط",
-      "suspended": "معلق"
-    },
+    "subtitle": "رؤية وتحليلات شاملة لبيانات اعضاء حزب الجبهة الوطنية",
     "noDataAvailable": "لا توجد بيانات متاحة",
     "tabs": {
       "overview": "نظرة عامة",
@@ -130,6 +127,8 @@
       "financial": "المالية",
       "geographic": "الجغرافية"
     },
+    "totalMembersTitle": "إجمالي أعضاء الحزب",
+    "registeredMemberText": "عضو حزبي مسجل",
     "asOf": "حتى تاريخ",
     "ofTotal": "من الإجمالي",
     "paidRate": "معدل الدفع",
@@ -154,9 +153,10 @@
     "paidMembers": "الأعضاء المدفوعين",
     "ageGroups": {
       "18-25": "18-25 سنة",
-      "26-35": "26-35 سنة",
-      "36-65": "36-65 سنة",
-      "65+": "65+ سنة"
+      "25-35": "25-35 سنة",
+      "35-45": "35-45 سنة",
+      "45-60": "45-60 سنة",
+      "60-80": "60-80 سنة"
     },
     "genderLabels": {
       "male": "الذكور",
@@ -166,7 +166,9 @@
       "paid": "مدفوع",
       "unpaid": "غير مدفوع"
     },
-    "noLocationData": "لا توجد بيانات موقعية"
+    "partyUnitDistribution": "توزيع الوحدات الحزبية",
+    "memberTypeDistribution": "توزيع أنواع الأعضاء",
+    "religionDistribution": "توزيع الديانة"
   },
   "export": {
     "excel": "تصدير لإكسل",
@@ -180,16 +182,22 @@
   "members": {
     "title": "قائمة الأعضاء",
     "addMember": "إضافة عضو جديد",
+    "addNewMember": "إضافة عضو جديد",
     "editMember": "تعديل عضو",
-    "viewMember": "عرض عضو",
+    "memberProfile": "ملف العضو",
+    "personalInformation": "المعلومات الشخصية",
+    "contactInformation": "معلومات التواصل",
+    "professionalInformation": "المعلومات المهنية",
+    "registrationInformation": "معلومات التسجيل",
+    "lastUpdated": "آخر تحديث",
     "viewMemberDescription": "عرض تفاصيل العضو بدون إمكانية التعديل",
-    "viewOnlyMode": "وضع العرض فقط",
-    "viewOnlyDescription": "هذا النموذج في وضع العرض فقط. يمكنك تعديل البيانات بالنقر على زر التعديل.",
     "searchAndFilter": "أعضاء حزب الجبهة الوطنية",
     "gender": "الجنس",
-    "status": "الحالة",
     "showAll": "عرض الكل",
     "fullName": "الاسم بالكامل",
+    "religion": "الديانة",
+    "muslim": "مسلم",
+    "christian": "مسيحي",
     "nationalId": "الرقم القومي (14 رقم)",
     "phoneNumber": "رقم الهاتف (01xxxxxxxxx)",
     "landlineNumber": "رقم الهاتف الأرضي",
@@ -201,37 +209,32 @@
     "job": "الوظيفة",
     "memberStatus": "حالة العضو",
     "membershipType": "نوع العضوية",
-    "financialSupport": "الدعم المالي",
     "memberPhoto": "صورة العضو",
     "photoPreview": "معاينة الصورة",
     "saveMember": "حفظ العضو",
     "clearForm": "مسح النموذج",
     "registrationDate": "تاريخ التسجيل",
-    "financialSupportStatus": "حالة الدعم المالي",
     "filters": "التصفية والفلترة",
     "noMembersFound": "لا توجد أعضاء حالياً",
     "totalCount": "{{count}} عضو",
-    "activeCount": "{{count}} نشط",
-    "paidCount": "{{count}} مدفوع",
     "addFirstMember": "اضغط على 'إضافة عضو جديد' لبدء إضافة الأعضاء",
     "clearFilters": "مسح التصفية",
     "memberDetails": "تفاصيل العضو",
     "regular": "عضو عادي",
     "premium": "عضو مميز",
     "vip": "عضو VIP",
-    "paid": "مدفوع",
-    "unpaid": "غير مدفوع",
     "memberTypes": {
-      "regular": "عضو عادي",
+      "regular": "عضو عادى",
       "committee": "عضو لجنة",
-      "assistantSecretary": "أمين مساعد",
-      "organizationSecretary": "أمين تنظيم",
-      "secretary": "أمين أمانة",
-      "assistantSecretaryGeneral": "أمين مساعد أمانة",
-      "baseUnitSecretary": "أمين وحدة قاعدية",
-      "baseUnitAssistantSecretary": "أمين مساعد وحدة قاعدية",
-      "baseUnitOrganizationSecretary": "أمين تنظيم وحدة قاعدية",
-      "baseUnitSecretaryGeneral": "أمين أمانة وحدة قاعدية"
+      "divisionSecretary": "امين القسم",
+      "assistantSecretary": "امين مساعد",
+      "organizationSecretary": "امين تنظيم",
+      "secretary": "امين امانة",
+      "assistantSecretaryGeneral": "امين مساعد امانة",
+      "baseUnitSecretary": "امين وحدة قاعدية",
+      "baseUnitAssistantSecretary": "امين مساعد وحدة قاعدية",
+      "baseUnitOrganizationSecretary": "امين تنظيم وحدة قاعدية",
+      "baseUnitSecretaryGeneral": "امين امانة وحدة قاعدية"
     },
     "deleteConfirmation": "هل أنت متأكد من حذف {{name}}؟ هذا الإجراء لا يمكن التراجع عنه.",
     "deleteSuccess": "تم حذف العضو {{name}} بنجاح",
@@ -266,7 +269,9 @@
     "updateSuccessWithName": "تم تعديل بيانات العضو {{name}} بنجاح",
     "updateDuplicateError": "خطأ في تعديل بيانات العضو - قد تكون البيانات مكررة",
     "addSuccessWithName": "تم إضافة العضو {{name}} بنجاح",
-    "addDuplicateError": "خطأ في إضافة العضو - قد تكون البيانات مكررة"
+    "addDuplicateError": "خطأ في إضافة العضو - قد تكون البيانات مكررة",
+    "memberNotFound": "لا يمكن ايجاد العضو",
+    "memberNotFoundDescription": "لم يتم العثور على العضو المطلوب أو قد يكون قد تم حذفه."
   },
   "forms": {
     "validation": {
@@ -286,7 +291,7 @@
     "statistics": "إحصائيات النظام",
     "statisticsDescription": "نظرة عامة على بيانات الأعضاء والنشاطات الأخيرة",
     "memberStatus": "حالة أعضاء الحزب",
-    "genderDistribution": "توزيع أعضاء الحزب حسب الجنس",
+    "genderDistribution": "توزيع الجنس",
     "callToAction": {
       "title": "ابدأ في إدارة أعضاءك"
     },
@@ -321,13 +326,11 @@
     "memberAdded": "تم إضافة عضو الحزب بنجاح",
     "memberUpdated": "تم تحديث عضو الحزب بنجاح",
     "memberDeleted": "تم حذف عضو الحزب بنجاح",
-    "memberNotFound": "عضو الحزب غير موجود",
     "errorOccurred": "حدث خطأ ما",
     "confirmDelete": "هل أنت متأكد من حذف عضو الحزب؟",
     "dataExported": "تم تصدير البيانات بنجاح",
     "dataImported": "تم استيراد البيانات بنجاح",
     "backupCreated": "تم إنشاء النسخة الاحتياطية بنجاح",
-    "formErrors": "هناك أخطاء في بعض الحقول. يرجى مراجعتها.",
     "fileEmpty": "الملف فارغ أو لا يحتوي على بيانات",
     "importSuccess": "تم استيراد البيانات من {{fileName}} وتعبئة النموذج بنجاح!",
     "importError": "حدث خطأ في قراءة الملف، لكن سيتم ملء البيانات المتاحة",
@@ -342,16 +345,44 @@
     "bulkDeleteSuccess": "تم حذف {{count}} عضو بنجاح",
     "bulkDeleteError": "حدث خطأ أثناء حذف الأعضاء المحددين",
     "exportSuccess": "تم تصدير {{count}} عضو إلى Excel",
-    "exportError": "حدث خطأ أثناء تصدير البيانات"
+    "exportError": "حدث خطأ أثناء تصدير البيانات",
+    "loginErrorTitle": "خطأ في تسجيل الدخول",
+    "loginErrorMessage": "يرجى التحقق من صحة البيانات والمحاولة مرة أخرى"
+  },
+  "analytics": {
+    "recentActivity": "النشاطات الأخيرة",
+    "noRecentActivity": "لا توجد أنشطة حديثة",
+    "subtitle": "نظرة شاملة على بيانات الأعضاء والنشاطات",
+    "totalMembersTitle": "إجمالي أعضاء الحزب",
+    "asOf": "حتى تاريخ",
+    "registeredMemberText": "عضو مسجل",
+    "registrationTrends": "اتجاهات التسجيل",
+    "registrations": "التسجيلات",
+    "noDataAvailable": "لا توجد بيانات متاحة",
+    "memberTypeDistribution": "توزيع أنواع العضوية",
+    "ageDistribution": "توزيع العمر",
+    "partyUnitDistribution": "توزيع الوحدات الحزبية",
+    "genderDistribution": "توزيع الجنس",
+    "religionDistribution": "توزيع الدين",
+    "ageGroups": {
+      "18-25": "18-25 سنة",
+      "25-35": "25-35 سنة",
+      "35-45": "35-45 سنة",
+      "45-60": "45-60 سنة",
+      "60-80": "60-80 سنة"
+    },
+    "genderLabels": {
+      "male": "ذكر",
+      "female": "أنثى"
+    }
   },
   "backup": {
-    "title": "النسخ الاحتياطي",
+    "title": "النسخ الإحتياطي",
     "subtitle": "إدارة النسخ الاحتياطية واستعادة البيانات",
     "createBackup": "إنشاء نسخة احتياطية",
     "restoreData": "استعادة البيانات",
     "backupDescription": "قم بإنشاء نسخة احتياطية من جميع بيانات الأعضاء",
     "restoreDescription": "استعادة البيانات من ملف النسخة الاحتياطية",
-    "noDataToBackup": "لا توجد بيانات للنسخ الاحتياطي",
     "backupSuccess": "تم إنشاء النسخة الاحتياطية بنجاح",
     "restoreSuccess": "تم استعادة البيانات بنجاح",
     "clearAllData": "حذف جميع البيانات",
@@ -380,8 +411,17 @@
     "import": "استيراد",
     "admin": "إدارة"
   },
+  "auth": {
+    "signInToYourAccount": "تسجيل الدخول إلى حسابك",
+    "signIn": "تسجيل الدخول",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "demoCredentials": "بيانات تجريبية"
+  },
+  "validation": {
+    "required": "هذا الحقل مطلوب"
+  },
   "footer": {
-    "copyright": "الجيزة - حي الوراق © 2025",
+    "copyright": "جميع الحقوق محفوظة",
     "partyName": "حزب الجبهة الوطنية"
   }
 }

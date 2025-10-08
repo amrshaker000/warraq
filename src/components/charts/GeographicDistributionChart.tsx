@@ -91,15 +91,15 @@ const GeographicDistributionChart: React.FC<
   const colorScale = scaleQuantile<string>()
     .domain([0, maxCount])
     .range([
-      "#EFF6FF",
-      "#BFDBFE",
-      "#93C5FD",
-      "#60A5FA",
-      "#3B82F6",
-      "#2563EB",
-      "#1D4ED8",
-      "#1E40AF",
-      "#1E3A8A",
+      "#FEF2F2",
+      "#FECACA",
+      "#FCA5A5",
+      "#F87171",
+      "#EF4444",
+      "#DC2626",
+      "#B91C1C",
+      "#991B1B",
+      "#7F1D1D",
     ]);
 
   // Prepare data for the map
@@ -165,8 +165,8 @@ const GeographicDistributionChart: React.FC<
                   strokeWidth={0.5}
                   style={{
                     default: { outline: "none" },
-                    hover: { fill: "#BFDBFE", outline: "none" },
-                    pressed: { fill: "#3B82F6", outline: "none" },
+                    hover: { fill: "#FECACA", outline: "none" },
+                    pressed: { fill: "#DC2626", outline: "none" },
                   }}
                 >
                   <title>{geo.properties?.name || "Unknown region"}</title>
@@ -186,7 +186,7 @@ const GeographicDistributionChart: React.FC<
                 <circle
                   r={getMarkerSize(count)}
                   fill={getFillColor(count)}
-                  stroke="#1E40AF"
+                  stroke="#B91C1C"
                   strokeWidth={1}
                   className="cursor-pointer transition-all duration-200 hover:opacity-80"
                 >
@@ -200,19 +200,19 @@ const GeographicDistributionChart: React.FC<
 
       <div className="absolute bottom-4 right-4 bg-white dark:bg-gray-800 p-2 rounded-md shadow-md text-xs">
         <div className="flex items-center mb-1">
-          <div className="w-3 h-3 rounded-full bg-blue-100 mr-1"></div>
+          <div className="w-3 h-3 rounded-full bg-red-100 mr-1"></div>
           <span className="text-gray-600 dark:text-gray-300">
             1-{Math.floor(maxCount / 3)}
           </span>
         </div>
         <div className="flex items-center mb-1">
-          <div className="w-4 h-4 rounded-full bg-blue-300 mr-1"></div>
+          <div className="w-4 h-4 rounded-full bg-red-300 mr-1"></div>
           <span className="text-gray-600 dark:text-gray-300">
             {Math.floor(maxCount / 3) + 1}-{Math.floor((maxCount * 2) / 3)}
           </span>
         </div>
         <div className="flex items-center">
-          <div className="w-5 h-5 rounded-full bg-blue-500 mr-1"></div>
+          <div className="w-5 h-5 rounded-full bg-red-500 mr-1"></div>
           <span className="text-gray-600 dark:text-gray-300">
             {Math.floor((maxCount * 2) / 3) + 1}+
           </span>

@@ -142,14 +142,14 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
     // عرض واجهة الخطأ الافتراضية
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-background-primary flex items-center justify-center p-4">
         <Card className="max-w-md w-full text-center">
           <div className="mb-6">
             <AlertTriangle className="h-16 w-16 text-red-500 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-dark-text-primary mb-2">
               عذراً، حدث خطأ
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600 dark:text-dark-text-muted">
               {this.getErrorMessage()}
             </p>
           </div>
@@ -181,10 +181,10 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
           {/* معلومات الخطأ للمطورين في وضع التطوير */}
           {import.meta.env.DEV && error && (
             <details className="mt-6 text-left">
-              <summary className="cursor-pointer text-sm text-gray-500 dark:text-gray-400 mb-2">
+              <summary className="cursor-pointer text-sm text-gray-500 dark:text-dark-text-muted mb-2">
                 تفاصيل الخطأ (للمطورين)
               </summary>
-              <div className="bg-gray-100 dark:bg-gray-800 p-3 rounded-md text-xs font-mono overflow-auto max-h-32">
+              <div className="bg-gray-100 dark:bg-dark-background-secondary p-3 rounded-md text-xs font-mono overflow-auto max-h-32">
                 <div className="text-red-600 dark:text-red-400 font-semibold mb-1">
                   {error.name}: {error.message}
                 </div>
@@ -192,7 +192,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                   {error.stack}
                 </div>
                 {errorInfo && (
-                  <div className="text-blue-600 dark:text-blue-400">
+                  <div className="text-red-600 dark:text-red-400">
                     Component Stack:
                     {errorInfo.componentStack}
                   </div>

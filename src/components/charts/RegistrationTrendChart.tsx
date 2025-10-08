@@ -98,9 +98,9 @@ const RegistrationTrendChart: React.FC<RegistrationTrendChartProps> = ({
   }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-          <p className="font-medium text-gray-900 dark:text-white">{label}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-300">
+        <div className="bg-white dark:bg-dark-background-secondary p-3 rounded-lg shadow-lg border border-gray-200 dark:border-dark-border-primary">
+          <p className="font-medium text-gray-900 dark:text-dark-text-primary">{label}</p>
+          <p className="text-sm text-gray-600 dark:text-dark-text-secondary">
             {t("analytics.registrations")}:{" "}
             <span className="font-semibold">{payload[0].value}</span>
           </p>
@@ -136,7 +136,7 @@ const RegistrationTrendChart: React.FC<RegistrationTrendChartProps> = ({
 
   if (data.length === 0) {
     return (
-      <div className="h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
+      <div className="h-full flex items-center justify-center text-gray-500 dark:text-dark-text-muted">
         {t("analytics.noDataAvailable")}
       </div>
     );
@@ -184,7 +184,7 @@ const RegistrationTrendChart: React.FC<RegistrationTrendChartProps> = ({
           {data.map((_, index) => (
             <Cell
               key={`cell-${index}`}
-              fill="#4F46E5" // Primary color
+              fill="#EF4444" // Primary red color
               fillOpacity={0.8}
             />
           ))}

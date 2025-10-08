@@ -11,10 +11,9 @@ export interface Member {
   age: number;
   address: string;
   job: string;
-  status: "active" | "inactive" | "suspended";
   membershipType: MembershipType;
+  religion: "muslim" | "christian";
   photo?: string;
-  financialSupport: "paid" | "unpaid";
   registrationDate: string;
   createdAt: string;
   updatedAt: string;
@@ -23,9 +22,15 @@ export interface Member {
 export type MembershipType =
   | "regular"
   | "committee"
+  | "divisionSecretary"
   | "assistantSecretary"
   | "organizationSecretary"
   | "secretary"
+  | "assistantSecretaryGeneral"
+  | "baseUnitSecretary"
+  | "baseUnitAssistantSecretary"
+  | "baseUnitOrganizationSecretary"
+  | "baseUnitSecretaryGeneral"
   | "premium"
   | "vip";
 
@@ -41,17 +46,14 @@ export interface MemberFormData {
   age: number;
   address: string;
   job: string;
-  status: "active" | "inactive" | "suspended";
   membershipType: MembershipType;
+  religion: "muslim" | "christian";
   photo?: File | string;
-  financialSupport: "paid" | "unpaid";
 }
 
 export interface MemberFilters {
   search?: string;
   gender?: string;
-  status?: string;
-  financialSupport?: string;
   membershipType?: string;
   partyUnit?: string;
   ageMin?: number;
@@ -60,11 +62,6 @@ export interface MemberFilters {
 
 export interface MemberStats {
   totalMembers: number;
-  activeMembers: number;
-  inactiveMembers: number;
-  suspendedMembers: number;
-  paidMembers: number;
-  unpaidMembers: number;
   maleMembers: number;
   femaleMembers: number;
   recentRegistrations: number;

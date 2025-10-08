@@ -12,6 +12,7 @@ i18n.use(initReactI18next).init({
   resources,
   lng: localStorage.getItem("language") || "ar", // Get language from localStorage or default to Arabic
   fallbackLng: "ar",
+  debug: false, // Enable in development if needed
   interpolation: {
     escapeValue: false,
     format: (value, format) => {

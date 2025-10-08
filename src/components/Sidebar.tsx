@@ -98,7 +98,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
       <aside
         key={`sidebar-${isRTL ? "rtl" : "ltr"}`}
         className={clsx(
-          "fixed inset-y-0 z-[60] w-64 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 flex flex-col transform transition-all duration-200 ease-in-out",
+          "fixed inset-y-0 z-[60] w-64 bg-white dark:bg-dark-background-primary border-gray-200 dark:border-dark-border-primary flex flex-col transform transition-all duration-200 ease-in-out",
           isRTL ? "right-0 border-l" : "left-0 border-r",
           isOpen
             ? "translate-x-0 opacity-100"
@@ -120,7 +120,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
         >
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400"
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-background-secondary text-gray-600 dark:text-dark-text-secondary"
             aria-label="Close sidebar"
           >
             <X className="h-5 w-5" />
@@ -130,7 +130,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
         {/* Mobile Close Button */}
         <div
           className={clsx(
-            "flex items-center justify-between p-4 lg:hidden border-b border-gray-200 dark:border-gray-800",
+            "flex items-center justify-between p-4 lg:hidden border-b border-gray-200 dark:border-dark-border-primary",
             isRTL ? "flex-row-reverse" : "flex-row",
           )}
         >
@@ -143,14 +143,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-background-secondary"
           >
-            <X className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+            <X className="h-5 w-5 text-gray-600 dark:text-dark-text-secondary" />
           </button>
         </div>
 
         {/* Logo - Desktop */}
-        <div className="hidden lg:block p-6 border-b border-gray-200 dark:border-gray-800">
+        <div className="hidden lg:block p-6 border-b border-gray-200 dark:border-dark-border-primary">
           <div className="flex justify-center">
             <img
               src={theme === "dark" ? goldLogo : colorLogo}
@@ -173,8 +173,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
                     "flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200",
                     isRTL ? "hover:-translate-x-1" : "hover:translate-x-1",
                     isActive
-                      ? "bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300"
-                      : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800",
+                      ? "bg-primary-100 text-primary-700 dark:bg-dark-accent-red-900 dark:text-dark-accent-red-300"
+                      : "text-gray-700 hover:bg-gray-100 dark:text-dark-text-primary dark:hover:bg-dark-background-secondary",
                   )
                 }
               >
@@ -185,7 +185,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
           </div>
 
           {/* Divider */}
-          <div className="border-t border-gray-200 dark:border-gray-700 my-4" />
+          <div className="border-t border-gray-200 dark:border-dark-border-primary my-4" />
 
           {/* Secondary Navigation */}
           <div className="space-y-1">
@@ -207,8 +207,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
                         "flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200",
                         isRTL ? "hover:-translate-x-1" : "hover:translate-x-1",
                         isActive
-                          ? "bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300"
-                          : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800",
+                          ? "bg-primary-100 text-primary-700 dark:bg-dark-accent-red-900 dark:text-dark-accent-red-300"
+                          : "text-gray-700 hover:bg-gray-100 dark:text-dark-text-primary dark:hover:bg-dark-background-secondary",
                       )
                     }
                   >
@@ -223,18 +223,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
 
         {/* User Controls Section - Mobile Only for Regular Users */}
         {user && user.role === "user" && (
-          <div className="lg:hidden p-4 border-t border-gray-200 dark:border-gray-800 space-y-3">
+          <div className="lg:hidden p-4 border-t border-gray-200 dark:border-dark-border-primary space-y-3">
             {/* User Info */}
             {user && (
-              <div className="flex items-center space-x-3 rtl:space-x-reverse p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <div className="flex items-center space-x-3 rtl:space-x-reverse p-3 bg-gray-50 dark:bg-dark-background-secondary rounded-lg">
                 <div className="flex-shrink-0">
-                  <User className="h-8 w-8 text-gray-400 bg-gray-100 dark:bg-gray-700 rounded-full p-1.5" />
+                  <User className="h-8 w-8 text-gray-400 bg-gray-100 dark:bg-dark-background-tertiary rounded-full p-1.5" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                  <p className="text-sm font-medium text-gray-900 dark:text-dark-text-primary truncate">
                     {isRTL ? user.displayName : user.displayNameEn}
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-gray-500 dark:text-dark-text-muted">
                     {t("navigation.settings.regularUser")}
                   </p>
                 </div>
@@ -246,14 +246,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className="flex items-center justify-center space-x-2 rtl:space-x-reverse p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                className="flex items-center justify-center space-x-2 rtl:space-x-reverse p-2 rounded-lg bg-gray-100 dark:bg-dark-background-secondary hover:bg-gray-200 dark:hover:bg-dark-background-tertiary transition-colors"
               >
                 {theme === "dark" ? (
                   <Sun className="h-4 w-4 text-yellow-500" />
                 ) : (
                   <Moon className="h-4 w-4 text-blue-500" />
                 )}
-                <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                <span className="text-xs font-medium text-gray-700 dark:text-dark-text-primary">
                   {theme === "dark" ? t("app.dayMode") : t("app.nightMode")}
                 </span>
               </button>
@@ -270,10 +270,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
                     newLang === "ar" ? "ar" : "en";
                   onClose?.();
                 }}
-                className="flex items-center justify-center space-x-2 rtl:space-x-reverse p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                className="flex items-center justify-center space-x-2 rtl:space-x-reverse p-2 rounded-lg bg-gray-100 dark:bg-dark-background-secondary hover:bg-gray-200 dark:hover:bg-dark-background-tertiary transition-colors"
               >
                 <Languages className="h-4 w-4 text-green-500" />
-                <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                <span className="text-xs font-medium text-gray-700 dark:text-dark-text-primary">
                   {i18n.language === "ar" ? "EN" : "العربية"}
                 </span>
               </button>
@@ -286,7 +286,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
                 navigate("/login");
                 onClose?.();
               }}
-              className="w-full flex items-center justify-center space-x-2 rtl:space-x-reverse p-3 rounded-lg bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 transition-colors"
+              className="w-full flex items-center justify-center space-x-2 rtl:space-x-reverse p-3 rounded-lg bg-red-50 dark:bg-dark-accent-red-900/20 hover:bg-red-100 dark:hover:bg-dark-accent-red-900/30 text-red-600 dark:text-dark-accent-red-400 transition-colors"
             >
               <LogOut className="h-4 w-4" />
               <span className="text-sm font-medium">
@@ -297,11 +297,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
         )}
 
         {/* Footer */}
-        <div className="p-4 border-t border-gray-200 dark:border-gray-800">
-          <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+        <div className="p-4 border-t border-gray-200 dark:border-dark-border-primary">
+          <p className="text-xs text-gray-500 dark:text-dark-text-muted text-center">
             {t("footer.copyright")} &copy; {new Date().getFullYear()}
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-1">
+          <p className="text-xs text-gray-500 dark:text-dark-text-muted text-center mt-1">
             {t("footer.partyName")}
           </p>
         </div>

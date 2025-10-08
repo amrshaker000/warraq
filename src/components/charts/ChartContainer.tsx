@@ -25,16 +25,16 @@ const ChartContainer: React.FC<ChartContainerProps> = ({
   emptyMessage = "No data available",
 }) => {
   return (
-    <Card className={`p-4 lg:p-6 ${className}`}>
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-base lg:text-lg font-semibold text-gray-900 dark:text-white">
+    <Card className={`p-3 sm:p-4 lg:p-6 ${className}`}>
+      <div className="flex items-center justify-between mb-3 sm:mb-4">
+        <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 dark:text-dark-text-primary">
           {title}
         </h3>
         {description && (
           <Tooltip content={description}>
             <button
               type="button"
-              className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+              className="text-gray-400 hover:text-gray-500 dark:text-dark-text-muted dark:hover:text-dark-text-secondary"
             >
               <HelpCircle className="h-4 w-4" />
               <span className="sr-only">Info</span>
@@ -48,9 +48,9 @@ const ChartContainer: React.FC<ChartContainerProps> = ({
         }`}
       >
         {isLoading ? (
-          <div className="text-gray-500 dark:text-gray-400">Loading...</div>
+          <div className="text-gray-500 dark:text-dark-text-secondary">Loading...</div>
         ) : isEmpty ? (
-          <div className="text-gray-400 dark:text-gray-500 text-center p-4">
+          <div className="text-gray-400 dark:text-dark-text-muted text-center p-4">
             <div className="text-sm">{emptyMessage}</div>
           </div>
         ) : (

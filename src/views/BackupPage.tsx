@@ -155,7 +155,7 @@ const BackupPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen flex bg-gray-50 dark:bg-dark-background-primary">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex-1 flex flex-col">
         <TopNav onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
@@ -164,10 +164,10 @@ const BackupPage: React.FC = () => {
             {/* Header */}
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-dark-text-primary">
                   {t("backup.title")}
                 </h1>
-                <p className="text-gray-600 dark:text-gray-400 mt-1">
+                <p className="text-gray-600 dark:text-dark-text-secondary mt-1">
                   {t("backup.subtitle")}
                 </p>
               </div>
@@ -180,10 +180,10 @@ const BackupPage: React.FC = () => {
                   <div className="mx-auto w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-4">
                     <Upload className="h-8 w-8 text-green-600 dark:text-green-400" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-dark-text-primary mb-2">
                     {t("backup.createBackup")}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  <p className="text-gray-600 dark:text-dark-text-muted mb-6">
                     {t("backup.backupDescription")}
                   </p>
                   <Button
@@ -203,13 +203,13 @@ const BackupPage: React.FC = () => {
               {/* Restore Section */}
               <Card className="p-6">
                 <div className="text-center">
-                  <div className="mx-auto w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mb-4">
-                    <Download className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+                  <div className="mx-auto w-16 h-16 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mb-4">
+                    <Download className="h-8 w-8 text-red-600 dark:text-red-400" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-dark-text-primary mb-2">
                     {t("backup.restoreData")}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  <p className="text-gray-600 dark:text-dark-text-muted mb-6">
                     {t("backup.restoreDescription")}
                   </p>
                   <div className="space-y-4">
@@ -241,33 +241,33 @@ const BackupPage: React.FC = () => {
 
             {/* Data Statistics */}
             <Card className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-dark-text-primary mb-4">
                 {t("backup.dataStatistics")}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                <div className="text-center p-4 bg-gray-50 dark:bg-dark-background-secondary rounded-lg">
+                  <div className="text-2xl font-bold text-gray-900 dark:text-dark-text-primary">
                     {members.length}
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                  <div className="text-sm text-gray-600 dark:text-dark-text-muted">
                     {t("backup.totalMembers")}
                   </div>
                 </div>
 
-                <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                <div className="text-center p-4 bg-gray-50 dark:bg-dark-background-secondary rounded-lg">
+                  <div className="text-2xl font-bold text-gray-900 dark:text-dark-text-primary">
                     {new Date().toLocaleDateString()}
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                  <div className="text-sm text-gray-600 dark:text-dark-text-muted">
                     {t("backup.lastUpdate")}
                   </div>
                 </div>
 
-                <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                <div className="text-center p-4 bg-gray-50 dark:bg-dark-background-secondary rounded-lg">
+                  <div className="text-2xl font-bold text-gray-900 dark:text-dark-text-primary">
                     {Math.round(JSON.stringify(members).length / 1024)} KB
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                  <div className="text-sm text-gray-600 dark:text-dark-text-muted">
                     {t("backup.dataSize")}
                   </div>
                 </div>

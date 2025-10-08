@@ -13,16 +13,16 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
+            50: '#fef2f2',
+          100: '#fee2e2',
+          200: '#fecaca',
+          300: '#fca5a5',
+          400: '#f87171',
+          500: '#ef4444',
+          600: '#dc2626',
+          700: '#b91c1c',
+          800: '#991b1b',
+          900: '#7f1d1d',
         },
         secondary: {
           50: '#f8fafc',
@@ -35,7 +35,38 @@ export default {
           700: '#334155',
           800: '#1e293b',
           900: '#0f172a',
-        }
+        
+        },
+        dark: {
+          background: {
+            primary: '#0f1419',
+            secondary: '#1a1f2e',
+            tertiary: '#242938',
+          },
+          text: {
+            primary: '#e6edf3',
+            secondary: '#9ca3af',
+            muted: '#6b7280',
+          },
+          border: {
+            primary: '#374151',
+            secondary: '#4b5563',
+          },
+          accent: {
+            red: {
+              50: '#fef2f2',
+              100: '#fee2e2',
+              200: '#fecaca',
+              300: '#fca5a5',
+              400: '#f87171',
+              500: '#ef4444',
+              600: '#dc2626',
+              700: '#b91c1c',
+              800: '#991b1b',
+              900: '#7f1d1d',
+            },
+          },
+        },
       },
       fontFamily: {
         'arabic': ['Cairo', 'Tajawal', 'system-ui', 'sans-serif'],
@@ -66,4 +97,3 @@ export default {
   },
   plugins: [],
 }
-

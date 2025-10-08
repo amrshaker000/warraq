@@ -43,7 +43,7 @@ const Card: React.FC<CardProps> = ({
   return (
     <div
       className={clsx(
-        "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700",
+        "bg-white dark:bg-dark-background-primary border border-gray-200 dark:border-dark-border-primary",
         paddingClasses[padding],
         shadowClasses[shadow],
         roundedClasses[rounded],

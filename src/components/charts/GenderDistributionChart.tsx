@@ -24,7 +24,7 @@ const GenderDistributionChart: React.FC<GenderDistributionChartProps> = ({
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
-              <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
+              <div className="w-4 h-4 bg-red-500 rounded-full"></div>
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 {t(`analytics.genderLabels.male`)}
               </span>
@@ -35,7 +35,7 @@ const GenderDistributionChart: React.FC<GenderDistributionChartProps> = ({
           </div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
             <div
-              className="bg-blue-500 h-3 rounded-full transition-all duration-300"
+              className="bg-red-500 h-3 rounded-full transition-all duration-300"
               style={{ width: `${malePercentage}%` }}
             />
           </div>

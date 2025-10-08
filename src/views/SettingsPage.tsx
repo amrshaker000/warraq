@@ -39,17 +39,17 @@ const SettingsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen flex bg-gray-50 dark:bg-dark-background-primary">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex-1 flex flex-col">
         <TopNav onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
         <main className="flex-1 p-4 lg:p-8">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
-              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
+              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-dark-text-primary">
                 {t("navigation.settings.title")}
               </h1>
-              <p className="text-gray-600 dark:text-gray-400 mt-1">
+              <p className="text-gray-600 dark:text-dark-text-secondary mt-1">
                 {t("navigation.settings.subtitle")}
               </p>
             </div>
@@ -57,7 +57,7 @@ const SettingsPage: React.FC = () => {
             <div className="space-y-6">
               {/* Appearance Settings */}
               <Card className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-dark-text-primary mb-4">
                   {t("navigation.settings.appearance")}
                 </h3>
 
@@ -71,12 +71,12 @@ const SettingsPage: React.FC = () => {
                         <Moon className="h-5 w-5 text-blue-500" />
                       )}
                       <div>
-                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <label className="text-sm font-medium text-gray-700 dark:text-dark-text-secondary">
                           {theme === "dark"
                             ? t("app.dayMode")
                             : t("app.nightMode")}
                         </label>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                        <p className="text-xs text-gray-500 dark:text-dark-text-muted">
                           {t("navigation.settings.themeDescription")}
                         </p>
                       </div>
@@ -96,10 +96,10 @@ const SettingsPage: React.FC = () => {
                     <div className="flex items-center space-x-3 rtl:space-x-reverse">
                       <Languages className="h-5 w-5 text-green-500" />
                       <div>
-                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <label className="text-sm font-medium text-gray-700 dark:text-dark-text-secondary">
                           {t("navigation.language")}
                         </label>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                        <p className="text-xs text-gray-500 dark:text-dark-text-muted">
                           {t("navigation.settings.languageDescription")}
                         </p>
                       </div>
@@ -111,7 +111,7 @@ const SettingsPage: React.FC = () => {
 
               {/* System Settings */}
               <Card className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-dark-text-primary mb-4">
                   {t("navigation.settings.system")}
                 </h3>
 
@@ -121,10 +121,10 @@ const SettingsPage: React.FC = () => {
                     <div className="flex items-center space-x-3 rtl:space-x-reverse">
                       <RefreshCw className="h-5 w-5 text-blue-500" />
                       <div>
-                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <label className="text-sm font-medium text-gray-700 dark:text-dark-text-secondary">
                           {t("navigation.refreshData")}
                         </label>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                        <p className="text-xs text-gray-500 dark:text-dark-text-muted">
                           {t("navigation.settings.refreshDescription")}
                         </p>
                       </div>
@@ -143,7 +143,7 @@ const SettingsPage: React.FC = () => {
 
               {/* Account Settings */}
               <Card className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-dark-text-primary mb-4">
                   {t("navigation.settings.account")}
                 </h3>
 
@@ -151,7 +151,7 @@ const SettingsPage: React.FC = () => {
                   {/* User Info */}
                   <div className="flex items-center space-x-4 rtl:space-x-reverse">
                     <div className="flex-shrink-0">
-                      <User className="h-12 w-12 text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full p-2" />
+                      <User className="h-12 w-12 text-gray-400 bg-gray-100 dark:bg-dark-background-secondary rounded-full p-2" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-900 dark:text-white">

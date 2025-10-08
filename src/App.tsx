@@ -12,6 +12,7 @@ import Login from "./views/Login";
 import BackupPage from "./views/BackupPage";
 import SettingsPage from "./views/SettingsPage";
 import DebugAuth from "./views/DebugAuth";
+import MemberProfileCard from "./components/MemberProfileCard";
 import PageTransitionWrapper from "./components/animations/PageTransitionWrapper";
 import {
   validateStoredSession,
@@ -142,6 +143,15 @@ function App(): ReactElement {
             element={
               <PrivateRoute>
                 <DataEntryForm />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/member/:id"
+            element={
+              <PrivateRoute>
+                <MemberProfileCard />
               </PrivateRoute>
             }
           />

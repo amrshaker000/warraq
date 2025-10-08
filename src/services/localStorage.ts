@@ -16,7 +16,7 @@ export class LocalStorageService {
   }
 
   /**
-   * إضافة عضو جديد
+   * Add new member
    */
   static async addMember(member: Member): Promise<boolean> {
     return await this.csvService.addMember(member);

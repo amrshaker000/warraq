@@ -37,15 +37,15 @@ const Button: React.FC<ButtonProps> = ({
     primary:
       "bg-primary-600 hover:bg-primary-700 text-white focus:ring-primary-500",
     secondary:
-      "bg-secondary-100 hover:bg-secondary-200 text-secondary-900 focus:ring-secondary-500 dark:bg-secondary-800 dark:hover:bg-secondary-700 dark:text-secondary-100",
+      "bg-secondary-100 hover:bg-secondary-200 text-secondary-900 focus:ring-secondary-500 dark:bg-dark-background-secondary dark:hover:bg-dark-background-tertiary dark:text-dark-text-primary",
     danger: "bg-red-600 hover:bg-red-700 text-white focus:ring-red-500",
     success: "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500",
     warning:
       "bg-yellow-600 hover:bg-yellow-700 text-white focus:ring-yellow-500",
     outline:
-      "border-2 border-primary-600 text-primary-600 hover:bg-primary-50 focus:ring-primary-500 dark:border-primary-400 dark:text-primary-400 dark:hover:bg-primary-900",
+      "border-2 border-primary-600 text-primary-600 hover:bg-primary-50 focus:ring-primary-500 dark:border-dark-accent-red-400 dark:text-dark-accent-red-400 dark:hover:bg-dark-accent-red-900/20",
     ghost:
-      "bg-transparent hover:bg-secondary-100 text-secondary-700 hover:text-secondary-900 focus:ring-secondary-500 dark:hover:bg-secondary-800 dark:text-secondary-300 dark:hover:text-secondary-100",
+      "bg-transparent hover:bg-gray-100 text-gray-700 hover:text-gray-900 focus:ring-gray-500 dark:hover:bg-dark-background-secondary dark:text-dark-text-secondary dark:hover:text-dark-text-primary",
   };
 
   const sizeClasses = {

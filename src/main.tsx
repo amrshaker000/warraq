@@ -7,6 +7,7 @@ import "./index.css";
 import App from "./App.tsx";
 import i18n from "./i18n";
 import { store } from "./store";
+import { ActivityProvider } from "./contexts/ActivityContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { ToastProvider } from "./contexts/ToastContext";
 
@@ -32,9 +33,11 @@ function initializeApp() {
         <I18nextProvider i18n={i18n}>
           <ThemeProvider>
             <ToastProvider>
-              <HashRouter>  {}
-                <App />
-              </HashRouter>
+              <ActivityProvider>
+                <HashRouter>  {}
+                  <App />
+                </HashRouter>
+              </ActivityProvider>
             </ToastProvider>
           </ThemeProvider>
         </I18nextProvider>

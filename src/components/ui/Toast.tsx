@@ -71,14 +71,14 @@ const Toast: React.FC<ToastProps> = ({
       "bg-red-50/95 border-red-200 text-red-900 dark:bg-red-950/95 dark:border-red-800 dark:text-red-100",
     warning:
       "bg-amber-50/95 border-amber-200 text-amber-900 dark:bg-amber-950/95 dark:border-amber-800 dark:text-amber-100",
-    info: "bg-blue-50/95 border-blue-200 text-blue-900 dark:bg-blue-950/95 dark:border-blue-800 dark:text-blue-100",
+    info: "bg-red-50/95 border-red-200 text-red-900 dark:bg-red-950/95 dark:border-red-800 dark:text-red-100",
   };
 
   const iconColors = {
     success: "text-green-600 dark:text-green-400",
     error: "text-red-600 dark:text-red-400",
     warning: "text-amber-600 dark:text-amber-400",
-    info: "text-blue-600 dark:text-blue-400",
+    info: "text-red-600 dark:text-red-400",
   };
 
   const Icon = icons[type];
@@ -87,7 +87,7 @@ const Toast: React.FC<ToastProps> = ({
     success: "bg-green-100 dark:bg-green-900/50",
     error: "bg-red-100 dark:bg-red-900/50",
     warning: "bg-amber-100 dark:bg-amber-900/50",
-    info: "bg-blue-100 dark:bg-blue-900/50",
+    info: "bg-red-100 dark:bg-red-900/50",
   } as const;
 
   const isAssertive = type === "error" || type === "warning";

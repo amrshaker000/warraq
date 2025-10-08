@@ -16,7 +16,7 @@ interface ThemeProviderProps {
   children: React.ReactNode;
 }
 
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }: ThemeProviderProps) => {
   const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem("theme") as Theme;
     return savedTheme || "light"; // Default to light mode
@@ -50,7 +50,10 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   }, []);
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    // Add a small delay for smooth transition
+    setTimeout(() => {
+      setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    }, 100); // 100ms delay for smooth transition
   };
 
   const value: ThemeContextType = {
