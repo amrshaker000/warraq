@@ -33,10 +33,19 @@ const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>();
+    formState: { errors, isValid },
+  } = useForm<LoginFormData>({
+    mode: 'onChange',
+  });
 
   const onSubmit = async (data: LoginFormData) => {
+    console.log("🚀 Login form submitted with data:", data);
+    console.log("📋 Form validation state:", {
+      isValid: Object.keys(errors).length === 0,
+      errors,
+      isFormValid: isValid
+    });
+
     dispatch(loginStart());
 
     try {
@@ -49,6 +58,7 @@ const Login: React.FC = () => {
 
         // تسجيل الدخول بنجاح
         dispatch(login({ token, user }));
+        console.log("✅ Login successful for user:", user.username);
         success(
           t("messages.loginSuccessTitle"),
           t("messages.loginSuccessMessage"),
@@ -56,9 +66,11 @@ const Login: React.FC = () => {
         navigate("/home");
       } else {
         dispatch(loginFailure(t("messages.loginInvalid")));
+        console.warn("❌ Invalid login attempt for username:", data.username);
         showError(t("messages.errorOccurred"), t("messages.loginInvalid"));
       }
-    } catch {
+    } catch (error) {
+      console.error("❌ Login error:", error);
       dispatch(loginFailure(t("messages.loginFailed")));
       showError(t("messages.errorOccurred"), t("messages.loginFailed"));
     }

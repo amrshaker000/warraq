@@ -73,17 +73,27 @@ function App(): ReactElement {
    * يستعيد الجلسة إذا كانت صالحة، ويقوم بتسجيل الخروج إذا كانت منتهية الصلاحية
    */
   useEffect(() => {
-    const storedSession = validateStoredSession();
+    try {
+      const storedSession = validateStoredSession();
 
-    if (
-      storedSession.token &&
-      storedSession.user &&
-      !isSessionExpired(Date.now())
-    ) {
-      // استعادة الجلسة الصالحة
-      dispatch(login({ token: storedSession.token, user: storedSession.user }));
-    } else {
-      // تسجيل الخروج إذا كانت الجلسة غير صالحة
+      if (
+        storedSession.token &&
+        storedSession.user &&
+        !isSessionExpired(storedSession.token)
+      ) {
+        // استعادة الجلسة الصالحة
+        console.log("🔐 Restoring valid session for user:", storedSession.user.username);
+        dispatch(login({ token: storedSession.token, user: storedSession.user }));
+      } else {
+        // تسجيل الخروج إذا كانت الجلسة غير صالحة
+        if (storedSession.token || storedSession.user) {
+          console.log("🔓 Clearing invalid/expired session");
+        }
+        dispatch(logout());
+      }
+    } catch (error) {
+      console.error("❌ Error during session validation:", error);
+      // في حالة حدوث خطأ، قم بتسجيل الخروج للأمان
       dispatch(logout());
     }
   }, [dispatch]);

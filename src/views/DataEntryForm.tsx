@@ -25,17 +25,19 @@ import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
 import AnimatedSection from "../components/animations/AnimatedSection";
 import AnimatedGroup from "../components/animations/AnimatedGroup";
-import type { MemberFormData, MembershipType } from "../types/member";
+import type { MemberFormData, MembershipType, Member } from "../types/member";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "../store";
 import { addMember, updateMember } from "../slices/membersSlice";
 import { useToastContext } from "../hooks/useToastContext";
+import { useActivity } from "../contexts/ActivityContext";
 
 const DataEntryForm: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { addToast } = useToastContext();
+  const { trackMemberActivity } = useActivity();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -113,8 +115,7 @@ const DataEntryForm: React.FC = () => {
     setFormError(null);
     setIsLoading(true);
     try {
-      const memberData = {
-        id: isEditing ? id || `member_${Date.now()}` : `member_${Date.now()}`,
+      const baseMemberData: Omit<Member, 'id' | 'createdAt'> = {
         fullName: data.fullName,
         nationalId: data.nationalId,
         gender: data.gender,
@@ -129,19 +130,49 @@ const DataEntryForm: React.FC = () => {
         membershipType: data.membershipType,
         religion: data.religion,
         registrationDate: new Date().toISOString(),
-        createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         photo: typeof data.photo === "string" ? data.photo : undefined,
       };
 
+      let memberData: Member;
+
+      if (isEditing && id) {
+        const existingMember = members.find(m => m.id === id);
+        if (existingMember) {
+          // For editing, preserve the original ID, createdAt, and registrationDate
+          memberData = {
+            ...baseMemberData,
+            id: id,
+            createdAt: existingMember.createdAt,
+            registrationDate: existingMember.registrationDate,
+          };
+        } else {
+          throw new Error('Member not found for editing');
+        }
+      } else {
+        // For adding new member
+        memberData = {
+          ...baseMemberData,
+          id: `member_${Date.now()}`,
+          createdAt: new Date().toISOString(),
+        };
+      }
+
       if (isEditing) {
         try {
+          const originalMember = members.find(m => m.id === id);
           await dispatch(
             updateMember({
-              id: memberData.id,
-              member: memberData,
+              id: id!, // Use the URL parameter id directly
+              member: memberData, // Pass the full member data
             }),
           ).unwrap();
+
+          // Track activity after successful update
+          if (originalMember) {
+            trackMemberActivity('edit', memberData, originalMember);
+          }
+
           addToast({
             title: t("common.success"),
             message: t("members.updateSuccessWithName", {
@@ -161,6 +192,10 @@ const DataEntryForm: React.FC = () => {
       } else {
         try {
           await dispatch(addMember(memberData)).unwrap();
+
+          // Track activity after successful add
+          trackMemberActivity('add', memberData);
+
           addToast({
             title: t("common.success"),
             message: t("members.addSuccessWithName", {

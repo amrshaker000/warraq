@@ -65,53 +65,358 @@ const MemberProfileCard: React.FC = () => {
   };
 
   const handlePrint = () => {
-    const printStyles = `
-      @media print {
-        body * { visibility: hidden; }
-        .printable-content, .printable-content * { visibility: visible; }
-        .printable-content {
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 100%;
-        }
-        .no-print {
-          display: none !important;
-        }
-        .member-info {
-          margin: 15px 0;
-        }
-        .info-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 10px;
-          margin: 10px 0;
-        }
-        .info-item {
-          padding: 8px;
-          background: #f5f5f5;
-          border-radius: 4px;
-        }
-        .info-label {
-          font-weight: bold;
-          color: #666;
-          font-size: 12px;
-        }
-        .info-value {
-          color: #333;
-          margin-top: 2px;
-        }
-      }
+    // إنشاء عنصر طباعة منفصل تماماً عن التصميم الأصلي
+    const printContainer = document.createElement('div');
+    printContainer.id = 'print-container';
+    printContainer.style.position = 'absolute';
+    printContainer.style.left = '-9999px';
+    printContainer.style.top = '0';
+    printContainer.style.width = '100%';
+
+    const printContent = `
+      <!DOCTYPE html>
+      <html dir="rtl" lang="ar">
+        <meta charset="UTF-8">
+        <title>ملف العضو - ${member.fullName}</title>
+        <style>
+          @page {
+            size: A4;
+            margin: 2mm;
+          }
+
+          * {
+            margin: 0;
+            padding: 0;
+          }
+
+          .print-wrapper {
+            background: white;
+            min-height: 100vh;
+            padding: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            margin: 0 auto;
+            max-width: 210mm;
+          }
+
+          .header {
+            text-align: center;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: linear-gradient(135deg, #2b6cb0 0%, #3182ce 100%);
+            color: white;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+          }
+
+          .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+          }
+
+          .header h1 {
+            font-size: 18px;
+          }
+
+          .header .subtitle {
+            font-size: 10px;
+          }
+
+          .member-card {
+            padding: 3px;
+            margin-bottom: 8px;
+            border: 0.5px solid #333;
+          }
+
+          .member-header {
+            padding: 6px;
+            gap: 8px;
+          }
+
+          .member-photo {
+            width: 45px;
+            height: 45px;
+            border: 1px solid white;
+          }
+
+          .member-photo-placeholder {
+            width: 45px;
+            height: 45px;
+            border: 1px solid white;
+            font-size: 16px;
+          }
+
+          .member-info h2 {
+            font-size: 14px;
+            margin-bottom: 2px;
+          }
+
+          .member-info p {
+            font-size: 10px;
+            margin-bottom: 4px;
+          }
+
+          .badge {
+            padding: 3px 8px;
+            font-size: 8px;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(72, 187, 120, 0.2);
+          }
+
+          .info-section {
+            padding: 8px;
+            border-bottom: 1px solid #f7fafc;
+          }
+
+          .info-section:last-child {
+            border-bottom: none;
+          }
+
+          .info-section h3 {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+
+          .info-section h3::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, #cbd5e0 0%, transparent 100%);
+            margin-right: 12px;
+          }
+
+          .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 8px;
+          }
+
+          .info-item {
+            background: transparent;
+            border: none;
+            padding: 0;
+            border-radius: 0;
+          }
+
+          .info-item:hover {
+            background: transparent;
+            transform: none;
+          }
+
+          .info-label {
+            font-weight: 600;
+            font-size: 8px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 2px;
+          }
+
+          .info-value {
+            font-size: 10px;
+            color: #2d3748;
+            font-weight: 500;
+            word-break: break-word;
+          }
+
+          .status-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          }
+
+          .status-badge::after {
+            content: '●';
+            color: white;
+            font-size: 10px;
+          }
+
+          .footer {
+            text-align: center;
+            margin-top: 8px;
+            padding: 6px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+          }
+
+          .footer p {
+            font-size: 8px;
+            color: #718096;
+            margin: 2px 0;
+          }
+
+          .ltr {
+            direction: ltr;
+            text-align: left;
+            display: inline-block;
+          }
+
+          .print-date {
+            background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 7px;
+            display: inline-block;
+            margin-top: 3px;
+          }
+
+          @media print {
+            body {
+              background: white !important;
+              margin: 0;
+            }
+            .print-wrapper {
+              box-shadow: none !important;
+              border-radius: 0 !important;
+              padding: 0 !important;
+            }
+            .no-print {
+              display: none !important;
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="print-wrapper">
+          <div class="header">
+            <h1>ملف العضو</h1>
+            <div class="subtitle">حزب الجبهة الوطنية - أمانة محافظة الجيزة</div>
+            <div class="print-date">
+              تاريخ الطباعة: ${new Date().toLocaleDateString('ar-EG')}
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="member-header">
+              <div class="member-photo-container">
+                ${member.photo ?
+                  `<img src="${member.photo}" alt="${member.fullName}" class="member-photo" loading="lazy">` :
+                  `<div class="member-photo-placeholder">${member.fullName.charAt(0)}</div>`
+                }
+                <div class="status-badge"></div>
+              </div>
+              <div class="member-info">
+                <h2>${member.fullName}</h2>
+                <p>${member.job}</p>
+                <span class="badge">${getMembershipTypeLabel(member.membershipType)}</span>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <h3>المعلومات الشخصية</h3>
+              <div class="info-grid">
+                <div>
+                  <div class="info-label">رقم الهوية الوطنية</div>
+                  <div class="info-value ltr">${member.nationalId}</div>
+                </div>
+                <div>
+                  <div class="info-label">رقم العضوية</div>
+                  <div class="info-value ltr">${member.membershipNumber}</div>
+                </div>
+                <div>
+                  <div class="info-label">العمر</div>
+                  <div class="info-value">${member.age} سنة</div>
+                </div>
+                <div>
+                  <div class="info-label">الجنس</div>
+                  <div class="info-value">${t(`common.${member.gender}`)}</div>
+                </div>
+                <div>
+                  <div class="info-label">الديانة</div>
+                  <div class="info-value">${t(`common.${member.religion}`)}</div>
+                </div>
+                <div>
+                  <div class="info-label">حالة العضوية</div>
+                  <div class="info-value">نشط وفعال</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <h3>معلومات التواصل</h3>
+              <div class="info-grid">
+                <div>
+                  <div class="info-label">رقم الهاتف</div>
+                  <div class="info-value ltr">${member.phoneNumber}</div>
+                </div>
+                <div>
+                  <div class="info-label">البريد الإلكتروني</div>
+                  <div class="info-value">${member.email}</div>
+                </div>
+                <div>
+                  <div class="info-label">العنوان</div>
+                  <div class="info-value">${member.address}</div>
+                </div>
+                <div>
+                  <div class="info-label">الوحدة الحزبية</div>
+                  <div class="info-value">${member.partyUnit || t("common.notSpecified")}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <h3>معلومات النظام</h3>
+              <div class="info-grid">
+                <div>
+                  <div class="info-label">تاريخ التسجيل</div>
+                  <div class="info-value">${formatDate(member.registrationDate)}</div>
+                </div>
+                <div>
+                  <div class="info-label">آخر تحديث</div>
+                  <div class="info-value">${formatDate(member.updatedAt)}</div>
+                </div>
+                <div>
+                  <div class="info-label">الحالة</div>
+                  <div class="info-value">عضو نشط</div>
+                </div>
+                <div>
+                  <div class="info-label">الإصدار</div>
+                  <div class="info-value">النسخة الرسمية</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer">
+            <p>تم إصدار هذا الملف من نظام إدارة أعضاء حزب الجبهة الوطنية</p>
+            <p>جميع الحقوق محفوظة © 2024 - أمانة محافظة الجيزة</p>
+          </div>
+        </div>
+      </body>
+      </html>
     `;
 
-    const styleElement = document.createElement('style');
-    styleElement.textContent = printStyles;
-    document.head.appendChild(styleElement);
+    printContainer.innerHTML = printContent;
+    document.body.appendChild(printContainer);
 
     window.print();
 
+    // حذف العنصر بعد الطباعة
     setTimeout(() => {
-      document.head.removeChild(styleElement);
+      document.body.removeChild(printContainer);
     }, 1000);
   };
 

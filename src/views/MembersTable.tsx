@@ -33,6 +33,7 @@ import {
 import type { Member } from "../types/member";
 import { useToastContext } from "../hooks/useToastContext";
 import { ExcelService } from "../services/excelService";
+import { useActivity } from "../contexts/ActivityContext";
 import { useTheme } from "../hooks/useTheme";
 import colourfulLogo from "/colourfull logo.png";
 import goldLogo from "/Gold logo.png";
@@ -47,6 +48,7 @@ const MembersTable: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { addToast } = useToastContext();
   const { theme } = useTheme();
+  const { trackMemberActivity } = useActivity();
 
   // Enhanced member management state
   const [selectedMembers, setSelectedMembers] = useState<Set<string>>(
@@ -186,6 +188,10 @@ const MembersTable: React.FC = () => {
 
       try {
         await dispatch(deleteMember(member.id)).unwrap();
+
+        // Track activity after successful delete
+        trackMemberActivity('delete', member);
+
         addToast({
           title: t("common.success"),
           message: t("members.deleteSuccess", { name: member.fullName }),
@@ -393,13 +399,13 @@ const MembersTable: React.FC = () => {
                     variant="outline"
                     onClick={handleExportExcel}
                     isLoading={isExporting}
-                    leftIcon={<FileSpreadsheet className="h-5 w-5 text-green-600 dark:text-green-400" />}
-                    className="w-full sm:w-auto border-green-600 text-green-600 hover:bg-green-50 focus:ring-green-500 dark:border-green-400 dark:text-green-400 dark:hover:bg-green-900/20"
+                    leftIcon={<FileSpreadsheet className="h-5 w-5" />}
+                    className="w-full sm:w-auto"
                   >
-                    <span className="hidden sm:inline text-green-600 dark:text-green-400">
+                    <span className="hidden sm:inline">
                       {t("export.excel")}{" "}
                     </span>
-                    <span className="sm:hidden text-green-600 dark:text-green-400">{t("export.excel")}</span>
+                    <span className="sm:hidden">{t("export.excel")}</span>
                   </Button>
                   <AnimatedButton
                     variant="primary"
@@ -474,7 +480,6 @@ const MembersTable: React.FC = () => {
                       size="sm"
                       onClick={handleBulkExport}
                       leftIcon={<Upload className="h-4 w-4" />}
-                      className="border-green-600 text-green-600 hover:bg-green-50 focus:ring-green-500 dark:border-green-600 dark:text-green-400"
                     >
                       {t("export.excel")}
                     </Button>

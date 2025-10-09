@@ -89,6 +89,32 @@ export const generateToken = (username: string): string => {
   const randomPart = Math.random().toString(36).substring(2, 15);
   return `token-${username}-${timestamp}-${randomPart}`;
 };
+
+// دالة لاستخراج الطابع الزمني من التوكن
+export const extractTokenTimestamp = (token: string): number | null => {
+  try {
+    const parts = token.split('-');
+    if (parts.length >= 3 && parts[0] === 'token') {
+      return parseInt(parts[2], 10);
+    }
+    return null;
+  } catch {
+    return null;
+  }
+};
+
+// دالة للتحقق من انتهاء صلاحية الجلسة (24 ساعة)
+export const isSessionExpired = (token: string): boolean => {
+  const timestamp = extractTokenTimestamp(token);
+  if (!timestamp) return true; // إذا لم نتمكن من استخراج الطابع الزمني، اعتبر الجلسة منتهية الصلاحية
+
+  const now = Date.now();
+  const sessionAge = now - timestamp;
+  const maxAge = 24 * 60 * 60 * 1000; // 24 ساعة بالميلي ثانية
+  return sessionAge > maxAge;
+};
+
+// دالة للتحقق من صحة البيانات المحفوظة في localStorage
 export const validateStoredSession = (): {
   token: string | null;
   user: User | null;
@@ -98,6 +124,13 @@ export const validateStoredSession = (): {
     const userStr = localStorage.getItem("currentUser");
 
     if (!token || !userStr) {
+      return { token: null, user: null };
+    }
+
+    // التحقق من صحة التوكن وانتهاء صلاحيته
+    if (isSessionExpired(token)) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("currentUser");
       return { token: null, user: null };
     }
 
@@ -119,14 +152,6 @@ export const validateStoredSession = (): {
   }
 };
 
-// دالة للتحقق من انتهاء صلاحية الجلسة (24 ساعة)
-export const isSessionExpired = (timestamp: number): boolean => {
-  const now = Date.now();
-  const sessionAge = now - timestamp;
-  const maxAge = 24 * 60 * 60 * 1000; // 24 ساعة بالميلي ثانية
-  return sessionAge > maxAge;
-};
-
 const initialState: AuthState = {
   token: null,
   isAuthenticated: false,
@@ -142,7 +167,7 @@ const storedSession = validateStoredSession();
 if (
   storedSession.token &&
   storedSession.user &&
-  !isSessionExpired(Date.now())
+  !isSessionExpired(storedSession.token)
 ) {
   initialState.token = storedSession.token;
   initialState.isAuthenticated = true;
@@ -203,18 +228,27 @@ export const { login, loginStart, loginFailure, logout, clearError } =
 
 // دالة للتحقق من وجود جلسة محفوظة وإعادتها
 export const checkStoredSession = () => {
-  const storedSession = validateStoredSession();
-  if (
-    storedSession.token &&
-    storedSession.user &&
-    !isSessionExpired(Date.now())
-  ) {
-    return {
-      type: "auth/login",
-      payload: { token: storedSession.token, user: storedSession.user },
-    };
+  try {
+    const storedSession = validateStoredSession();
+    if (
+      storedSession.token &&
+      storedSession.user &&
+      !isSessionExpired(storedSession.token)
+    ) {
+      console.log("🔐 Valid stored session found for user:", storedSession.user.username);
+      return {
+        type: "auth/login",
+        payload: { token: storedSession.token, user: storedSession.user },
+      };
+    }
+    if (storedSession.token || storedSession.user) {
+      console.log("🔓 Stored session is invalid or expired");
+    }
+    return { type: "auth/logout" };
+  } catch (error) {
+    console.error("❌ Error checking stored session:", error);
+    return { type: "auth/logout" };
   }
-  return { type: "auth/logout" };
 };
 
 export default authSlice.reducer;
