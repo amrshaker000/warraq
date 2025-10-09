@@ -122,7 +122,7 @@ const MembersTable: React.FC = () => {
     [searchQuery]
   );
 
-  const [filters, setFilters] = useState({
+  const [filters] = useState({
     gender: "all",
     membershipType: "all",
     religion: "all",
