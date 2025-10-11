@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -55,6 +55,7 @@ const DataEntryForm: React.FC = () => {
     formState: { errors },
     reset,
     setValue,
+    control,
   } = useForm<MemberFormData>({
     defaultValues: {
       fullName: "",
@@ -715,37 +716,49 @@ const DataEntryForm: React.FC = () => {
                   {...register("nationalId", {
                     required: t("forms.validation.required"),
                     pattern: {
-                      value: /^\d{14}$/,
+                      value: /^[23]\d{13}$/,
                       message: t("forms.validation.nationalId"),
                     },
                   })}
                   error={errors.nationalId?.message}
                 />
 
-                <Select
-                  label={t("members.gender")}
-                  options={genderOptions}
-                  placeholder={t("common.select")}
-                  fullWidth
-                  required
-                  disabled={isViewOnly}
-                  {...register("gender", {
-                    required: t("forms.validation.required"),
-                  })}
-                  error={errors.gender?.message}
+                <Controller
+                  name="gender"
+                  control={control}
+                  rules={{ required: t("forms.validation.required") }}
+                  render={({ field, fieldState }) => (
+                    <Select
+                      label={t("members.gender")}
+                      options={genderOptions}
+                      placeholder={t("common.select")}
+                      fullWidth
+                      required
+                      disabled={isViewOnly}
+                      value={field.value}
+                      onChange={field.onChange}
+                      error={fieldState.error?.message}
+                    />
+                  )}
                 />
 
-                <Select
-                  label={t("members.religion")}
-                  options={religionOptions}
-                  placeholder={t("common.select")}
-                  fullWidth
-                  required
-                  disabled={isViewOnly}
-                  {...register("religion", {
-                    required: t("forms.validation.required"),
-                  })}
-                  error={errors.religion?.message}
+                <Controller
+                  name="religion"
+                  control={control}
+                  rules={{ required: t("forms.validation.required") }}
+                  render={({ field, fieldState }) => (
+                    <Select
+                      label={t("members.religion")}
+                      options={religionOptions}
+                      placeholder={t("common.select")}
+                      fullWidth
+                      required
+                      disabled={isViewOnly}
+                      value={field.value}
+                      onChange={field.onChange}
+                      error={fieldState.error?.message}
+                    />
+                  )}
                 />
 
                 <Input
@@ -798,6 +811,7 @@ const DataEntryForm: React.FC = () => {
                   fullWidth
                   required
                   disabled={isViewOnly}
+                  allowedEmailDomains={["gmail.com", "outlook.sa.com"]}
                   {...register("email", {
                     required: t("forms.validation.required"),
                     pattern: {
@@ -836,17 +850,23 @@ const DataEntryForm: React.FC = () => {
                   error={errors.address?.message}
                 />
 
-                <Select
-                  label={t("members.partyUnit")}
-                  options={partyUnitOptions}
-                  placeholder={t("common.select")}
-                  fullWidth
-                  required
-                  disabled={isViewOnly}
-                  {...register("partyUnit", {
-                    required: t("forms.validation.required"),
-                  })}
-                  error={errors.partyUnit?.message}
+                <Controller
+                  name="partyUnit"
+                  control={control}
+                  rules={{ required: t("forms.validation.required") }}
+                  render={({ field, fieldState }) => (
+                    <Select
+                      label={t("members.partyUnit")}
+                      options={partyUnitOptions}
+                      placeholder={t("common.select")}
+                      fullWidth
+                      required
+                      disabled={isViewOnly}
+                      value={field.value}
+                      onChange={field.onChange}
+                      error={fieldState.error?.message}
+                    />
+                  )}
                 />
 
                 <Input
@@ -863,17 +883,23 @@ const DataEntryForm: React.FC = () => {
                   error={errors.membershipNumber?.message}
                 />
 
-                <Select
-                  label={t("members.membershipType")}
-                  options={membershipTypeOptions}
-                  placeholder={t("common.select")}
-                  fullWidth
-                  required
-                  disabled={isViewOnly}
-                  {...register("membershipType", {
-                    required: t("forms.validation.required"),
-                  })}
-                  error={errors.membershipType?.message}
+                <Controller
+                  name="membershipType"
+                  control={control}
+                  rules={{ required: t("forms.validation.required") }}
+                  render={({ field, fieldState }) => (
+                    <Select
+                      label={t("members.membershipType")}
+                      options={membershipTypeOptions}
+                      placeholder={t("common.select")}
+                      fullWidth
+                      required
+                      disabled={isViewOnly}
+                      value={field.value}
+                      onChange={field.onChange}
+                      error={fieldState.error?.message}
+                    />
+                  )}
                 />
               </AnimatedGroup>
 
