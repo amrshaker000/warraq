@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { Member, MemberFilters } from "./types/member";
 
-const API_BASE_URL = "http://localhost:5000/api"; // Update as needed
+const API_BASE_URL = "http://localhost:8000/api"; // Update as needed
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
